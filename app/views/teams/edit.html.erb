@@ -1,0 +1,76 @@
+<%= render 'partial/layout/navbar'%>
+
+<div class="content">
+	<h1>チーム編集</h1>
+	<hr>
+	<%= form_for @team, method: :post do |f| %>
+	    <%= f.label :チーム名 %><br>
+	    <%= f.text_field :name ,{required: 'true', autofocus: 'true', placeholder: " 例）チームタロウ" , class: 'form-control, form-width'} %>
+		<br>
+		<br>
+	    <%= f.label :organization %><br>
+	    <%= f.text_field :organization ,{required: 'true', autofocus: 'true', placeholder: "学校名/会社名/等" , class: 'form-control, form-width'} %>
+		<br>
+		<br>
+	    <%= f.label :活動地域 %><br>
+	    <%= f.text_field :active_place ,{required: 'true', autofocus: 'true', placeholder: " 例）関東/東京/港区/etc." , class: 'form-control, form-width'} %><br>
+			<small>※活動地域情報よりWanakaが近い対戦相手を提案します。</small>
+		<br>
+		<br>
+	    <%= f.label :レベル %><br>
+	    <%= f.text_field :level ,{required: 'true', autofocus: 'true', placeholder: "xxx" , class: 'form-control, form-width'} %>
+		<br>
+		<br>
+	    <%= f.label :創設年 %><br>
+	    <%= f.text_field :established_year ,{required: 'true', autofocus: 'true', placeholder: " 例）2000" , class: 'form-control, form-width'} %>
+		<br>
+		<br>
+	    <%= f.label :チーム紹介文 ,class: "" %><br>
+	    <%= f.text_area :description ,{required: 'true', autofocus: 'true', placeholder: "対戦相手を探す際に見える内容になります。どのようなチームか分かりやすい内容を記入することでマッチメイキングがスムーズになります。" , class: 'form-control, form-width' } %>
+		<br>
+		<br>
+		<div class="text-center" style="margin: 0 auto;">
+		    <%= f.label :image %><br>
+			<%#= f.attachment_field :image %>
+			<%= f.attachment_field :image ,{required: 'true', autofocus: 'true', class: 'form-control, form-width' }%>
+		</div>
+		<br>
+		<br>
+	    <%= f.submit '編集', class:"btn wanaka-btn btn-edit"%> 
+	<% end %>
+
+</div>
+
+
+
+<div class="content">
+	<h2>所属メンバー</h2>
+	<table class="table">
+	  <tbody>
+	    <tr>
+	      <td>氏名</td>
+	      <td>加入日</td>
+	      <td style="font-size: 14px; line-height: 14px;">管理者<br>権限付与</td>
+	      <td></td>
+	      <td></td>
+	    </tr>
+
+			<% @members.each do |member| %>
+			    <tr>
+			      <td><%= member.user.first_name %> <%= member.user.last_name %></td>
+			      <td><%= member.user.created_at.strftime("%Y/%m/%d") %></td>
+
+	      		<% if member.admin == 0 %>
+				      <td><%= link_to '権限付与', member_path(:member_id => member.id, :team_id => @team.id, :status => 2, :admin => 1), :method => :patch ,class: "btn-create"%></td>
+		 		     <td><%= link_to '退会', member_path(:member => member, :team_id => @team.id), :method => :delete ,class: "btn-delete"%></td>
+	 		     <% else %>
+	 		     	<td></td>
+	 		     	<td></td>
+	 		     <% end %>
+
+			    </tr>
+			<% end %>
+	  </tbody>
+	</table>
+</div>
+<%= render 'partial/layout/footer'%>

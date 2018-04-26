@@ -1,0 +1,24 @@
+<%= render 'partial/layout/navbar'%>
+
+<div class="content">
+	<h1>スケジュール管理</h1>
+	<hr>
+
+		<%= attachment_image_tag @team, :image, :fill, 300, 300, format: 'jpeg' %>
+	<br>
+	<br>
+	<% @teams.each do |team| %>
+		<%= team.name %>|
+			<% team.schedules.each do |schedule| %>
+			<%= schedule.id %>|
+			<%= link_to 'show' ,schedule_path(schedule) %>
+		<% end %>
+	<br>
+	<% end %>
+	<br>
+	<%= link_to 'スケジュール作成', new_schedule_path , class:"btn-width-wide wanaka-btn btn-create" %>
+</div>
+
+
+
+<%= render 'partial/layout/footer'%>

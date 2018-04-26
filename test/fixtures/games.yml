@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  team: one
+  place: MyString
+  price: MyString
+  date_time: 2018-04-20 14:26:28
+  memo: MyString
+
+two:
+  title: MyString
+  team: two
+  place: MyString
+  price: MyString
+  date_time: 2018-04-20 14:26:28
+  memo: MyString

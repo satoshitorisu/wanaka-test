@@ -1,0 +1,13 @@
+invited.html.erb
+<br>
+<% @members.each do |member| %>
+	
+	<%= member.team.name %>|
+	<%= member.greeting %>|
+	<%#= link_to '承認' ,member_update_path(:status => 2, :member_id => member.id) %>|
+
+
+
+	<%= link_to "承認", member_path(:member_invited, params: {:status => 2, :member_id => member.id }), :method => :put %>
+	<%= link_to '却下' %>
+<% end %>

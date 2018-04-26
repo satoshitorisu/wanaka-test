@@ -1,0 +1,86 @@
+
+<div class="admin-footer-box claerfix">
+	<%= link_to schedules_path do %>
+		<div class="admin-footer-menu">
+			<i class="far fa-calendar-alt"></i><br>
+			<span class="admin-footer-menu-text">
+			スケジュール
+			</span>
+		</div>
+	<% end %>
+	<%= link_to teams_path do %>
+		<div class="admin-footer-menu">
+			<i class="fas fa-child"></i><br>
+			<span class="admin-footer-menu-text">
+			チーム管理
+			</span>
+		</div>
+	<% end %>
+	<%= link_to conversations_path do %>
+		<div class="admin-footer-menu">
+			<i class="far fa-comment-alt"></i><br>
+			<span class="admin-footer-menu-text">
+				メッセージ
+			</span>
+		</div>
+	<% end %>
+	<%= link_to games_path do %>
+		<div class="admin-footer-menu">
+			<i class="far fa-futbol"></i><br>
+			<span class="admin-footer-menu-text">
+				マッチング
+			</span>
+		</div>
+	<% end %>
+	<%= link_to root_path do %>
+		<div class="admin-footer-menu">
+			<i class="fas fa-bars"></i><br>
+			<span class="admin-footer-menu-text">
+				メニュー
+			</span>
+		</div>
+	<% end %>
+	<!-- _admin-footer.html.erb -->
+</div>
+
+<style type="text/css" media="screen">
+	body{
+		margin-bottom: 100px;
+	}
+
+	.admin-footer-box{
+		width: 100%;
+		height: 80px;
+		margin-top: 160px;
+		position: fixed;
+		bottom: 0;
+	}
+
+	.admin-footer-menu{
+		width: 20%;
+		float: left;
+		text-align: center;
+		font-size: 32px;
+		line-height: 28px;
+		padding-top: 10px;
+		background-color: white;
+		height: 100%;
+	}
+
+	.admin-footer-menu:hover{
+		background-color: white;
+		font-size: 40px;
+		line-height: 6px;
+	}
+
+	.admin-footer-menu-text{
+		font-size: 12px;
+	}
+
+	.clearfix::after {
+	  content: "";
+	  display: block;
+	  clear: both;
+	}
+</style>
+<script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>

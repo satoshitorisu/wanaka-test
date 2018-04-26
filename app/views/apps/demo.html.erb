@@ -1,0 +1,48 @@
+<h1>Apps#index</h1>
+<p>Find me in app/views/apps/index.html.erb</p>
+<% if user_signed_in? %>
+	<p>User</p>
+	<ul>
+		<li><%= link_to 'user profile', users_path %></li>
+	</ul>
+	<p>Team <%= @admin %></p>
+	<ul>
+		<li><%= link_to 'index', teams_path %></li>
+		<li><%= link_to 'new', new_team_path %></li>
+	</ul>
+
+
+	<p>Member</p>
+	<ul>
+		<li><%= link_to 'apply',  member_apply_path %></li>
+		<% if  @invited %>
+			<li><%= link_to 'invited',  member_invited_path %></li>
+		<% end %>
+	</ul>
+
+
+	<p>Schedule</p>
+	<ul>
+		<li><%= link_to 'index', schedules_path %></li>
+		<li><%= link_to 'new', new_schedule_path %></li>
+	</ul>
+
+	<p>Participate</p>
+	<ul>
+		<li><%= link_to 'index', participates_path %></li>
+	</ul>
+
+	<p>Game</p>
+	<ul>
+		<li><%= link_to 'index', games_path %></li>
+		<li><%= link_to 'new', new_game_path %></li>
+
+	</ul>
+<% else %>
+	<p>User</p>
+	<ul>
+		<li><%= link_to 'login', new_user_session_path %></li>
+		<li><%= link_to 'sign up', new_user_registration_path %></li>
+	</ul>
+
+<% end %>

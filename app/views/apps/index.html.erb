@@ -1,0 +1,232 @@
+<%= render 'partial/layout/navbar'%>
+<% if user_signed_in? %>
+<% if @invited %>
+	<section class="main-invited">
+		以下のチームより参加の申請があります。
+		<br>
+		<% @invited_by.each do |member| %>
+			<%= member.team.name %>
+			<%= member.greeting %>
+		<% end %>
+	</section>
+<% end %>
+
+	<% if @admin %>
+		<section class="content main-content-about">
+			<h3 class="laber-blue">スケジュール入力</h3>
+			<div class="content-text">
+			</div>
+				<%= link_to 'スケジュール入力', participates_path, class:"btn wanaka-btn btn-create" %>
+		</section>
+
+		<section class="content main-content-about">
+			<h3 class="laber-red">スケジュール</h3>
+			<div class="content-text">
+			</div>
+				<%= link_to 'スケジュール管理',  schedules_path, class:"btn wanaka-btn btn-invite" %>
+		</section>
+
+		<section class="content main-content-about">
+			<h3 class="laber-green">所属チーム</h3>
+			<div class="content-text">
+			</div>
+				<%= link_to 'チーム管理',  teams_path, class:"btn wanaka-btn btn-detail" %>
+		</section>
+
+
+		<section class="content main-content-about">
+			<h3 class="laber-blue">ゲーム管理</h3>
+			<div class="content-text">
+			</div>
+				<%= link_to 'ゲーム一覧', games_path, class:"btn wanaka-btn btn-create" %>
+			<h3 class="laber-blue">ゲーム管理</h3>
+				<br>
+				<%= link_to 'ゲーム作成', new_game_path, class:"btn wanaka-btn btn-create" %>
+		</section>
+	<%= render 'partial/layout/admin-footer'%>
+		<% elsif @member %>
+			<% if @brand_new %>
+			<section class="content main-content-about">
+				<h1>はじめに</h1>
+				<hr>
+				<small>Wanakaは、メンバー管理ツールになります。Wanakaの機能をご利用頂くにはまずメンバーに参加したいする必要があります。チームへの参加方法は、ご自身でチームを作成するか、既に他のユーザーによって作成するされたチームに参加することができます。</small>
+				<br>
+			</section>
+			<% end %>
+		<% else %>
+	<% end %>
+
+	<section class="content main-content-about">
+		<h3 class="laber-blue">既存のグループに参加</h3>
+		<div class="content-text">
+		</div>
+			<%= link_to 'チーム参加', member_apply_path, class:"btn wanaka-btn btn-create" %>
+		<br>
+		<br>
+		<h3 class="laber-yellow">新たにグループ作成</h3>
+		<div class="content-text">
+		</div>
+			<%= link_to 'チーム作成', new_team_path, class:"btn wanaka-btn btn-delete" %>
+	</section>
+
+	<% if @member or @brand_new %>
+		<%= render 'partial/layout/footer'%>
+	<% end %>
+<% else %>
+
+<!-- サインインしていないユーザーが見るビュー -->
+	<section class="app-section app-section-image-top">
+		<img src="images/people-1284253_1920.jpg" alt="">
+		<!-- <div class= "main-view-img"></div> -->
+		<p>New Social Service,<br>
+		#Wanaka / Join Us!</p>
+	</section>
+
+<!-- 	<section class="app-section bg-clr-main-join-top">
+		<div class="app-section-box text-center">
+			<div class="app-section-content clearfix">
+				<div class="app-section-content-2col">
+					<%#= link_to 'ログイン', teams_path, class:"login-text-top" %>
+				</div>
+				<div class="app-section-content-2col">
+					<%#= link_to '会員登録', teams_path, class:"signin-text-top" %>
+				</div>
+
+			</div>
+		</div>
+	</section>
+ -->
+	<section class="app-section bg-clr-main-steps">
+		<div class="app-section-box text-center">
+			<div class="app-section-title">
+				<h1>What' Wanaka?</h1>
+				<hr>
+			</div>
+			<div class="app-section-content">
+				<small>Wanakaは、サッカー部のメンバー管理や練習試合調整などのチームを活動させる上での運用が面倒くさいと嘆く、某FFさんの想いより誕生した無料のチーム管理ツールとなります	。<br>Wanakaをご利用頂くことで、チーム内外のコミュニケーションを活性化させ、チームを運用をより円滑にしていただければ幸いです。</small>
+				<br>
+				<!-- <h4 class="text-center">What's More?</h4> -->
+			</div>
+		</div>
+	</section>
+
+	<section class="app-section bg-clr-main-features">
+		<div class="app-section-box text-center">
+			<div class="app-section-title app-section-title-white">
+				<h1 class="app-section-white-color">FEATURES</h1>
+				<hr>
+			</div>
+			<div class="app-section-content clearfix">
+				<div class="app-section-content-3col app-section-white-color">
+					<img src="images/hierarchical-structure.svg" alt="">
+					メンバー管理
+				</div>
+				<div class="app-section-content-3col app-section-white-color">
+					<img src="images/test (1).svg" alt="">
+					出席確認
+				</div>
+				<div class="app-section-content-3col app-section-white-color">
+					<img src="images/success.svg" alt="">
+					マッチング
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="app-section app-section-image-buttom">
+		<div class="app-section-image-buttom-cover"></div>
+		<img src="images/boys-2769553_1920.jpg" alt="">
+		<p class="app-section-image-buttom-text">#Hey, <br>Want to join us?<br>Steps below.</p>
+	</section>
+
+	<!-- unsigned in -->
+	<section class="app-section bg-clr-main-steps">
+		<div class="text-center">
+			<h1 class="main-steps-text">STEPS</h1>
+			<hr>
+			<div class="app-section-content clearfix">
+				<div class="app-section-content-3col app-section-black-color">
+					<img src="images/hierarchical-structure.svg" alt="">
+					ログイン
+				</div>
+				<div class="app-section-content-3col app-section-black-color">
+					<img src="images/test (1).svg" alt="">
+					チームに参加
+				</div>
+				<div class="app-section-content-3col app-section-black-color">
+					<img src="images/success.svg" alt="">
+					スケジュール入力
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- unsigned in -->
+	<section class="app-section bg-clr-main-join">
+		<div class="app-section-box text-center">
+			<div class="app-section-title app-section-title-white">
+				<h1 class="app-section-white-color">Join us</h1>
+			<hr>
+			<br>
+			</div>
+			<div class="app-section-content clearfix">
+				<div class="app-section-content-2col">
+					<%= link_to '登録?', teams_path, class:"signin-text" %>
+				</div>
+				<div class="app-section-content-2col">
+					<%= link_to 'ログイン?', teams_path, class:"login-text" %>
+				</div>
+			</div>
+		</div>
+	</section>
+	<br>
+	<%= render 'partial/layout/footer'%>
+	<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+<% end %>
+<style type="text/css" media="screen">
+	.app-section{
+		position: relative;
+	}
+	.app-section-image-top p{
+		font-size: 36px;
+		position: absolute;
+		color: white;
+		width: 80%;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		margin:0;/*余計な隙間を除く*/
+		text-align: center;
+		border: solid white 6px;
+		padding: 7px;/*文字と線の間の余白*/
+		text-decoration: none;/*下線を表示させない*/
+	}
+
+	.app-section-image-buttom p{
+		font-size: 60px;
+		position: absolute;
+		background-color: rgba(255,212,100,0.8);
+		color: white;
+		width: 80%;
+		height: 190px;
+		/*height: 100%;*/
+		line-height: 54px;
+		top: 36%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		margin:0;/*余計な隙間を除く*/
+		text-align: center;
+		padding: 7px;/*文字と線の間の余白*/
+		text-decoration: none;/*下線を表示させない*/
+		/*border-bottom: 2px solid rgba(51,51,51,0.9);*/
+		border-bottom: 2px solid rgba(255,255,255,0.5);
+	}
+
+
+	.app-section-image-buttom-text{
+		font-size: 14	px;
+	}
+
+	.app-section img{
+		width: 100%;
+	}
+</style>

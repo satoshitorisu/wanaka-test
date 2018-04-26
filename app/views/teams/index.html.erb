@@ -1,0 +1,39 @@
+<%= render 'partial/layout/navbar'%>
+<div class="content">
+<% if @members.presence %>
+	<h1>所属チーム一覧</h1>
+</div>
+	<div class="content">
+		<% @members.each do |member| %>
+			<div class="team-index-box clearfix">
+				<div class="team-index-box-img">
+					<%= attachment_image_tag member.team, :image, :fill, 160, 160, format: 'jpeg' %>
+				</div>
+				<div class="team-index-box-info">
+					<h3>チーム名｜<%= member.team.name %></h3>
+					<% if member.admin == 1 %>
+						<div class="admin-label">管理者</div>
+					<% end %>
+					<hr>
+					<%= link_to 'show', team_path(member.team.id) %>
+					<% if member.admin == 1 %>
+						|<%= link_to 'edit', edit_team_path(member.team.id) %>
+						|<%= link_to 'invite', member_invite_path(member.team.id) %>
+					<% end %>
+				<%# end %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+<% end %>
+<%= render 'partial/layout/footer'%>
+
+<style type="text/css" media="screen">
+	.team-index-box-img{
+		width: 168px;
+		height: 168px;
+		border: 1px double #333333;
+		padding-top: 3px;
+		margin: 0 auto;
+	}
+</style>

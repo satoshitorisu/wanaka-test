@@ -1,0 +1,47 @@
+<%= render 'partial/layout/navbar'%>
+
+<div class="content">
+	<h1>スケジュール管理</h1>
+	<hr>
+	<%= form_for(@schedule) do |f| %>
+
+	<% if @multi_teams %>
+		<%= f.select :team_id, @admin_team.map{|t| [t.id]} %>
+
+	<% else %>
+		<%= @admin_team.team.name %>
+		
+	    <%#= f.hidden_field :team_id ,@admin_team.map{|1| [1.id]} %>
+		<%= f.hidden_field :team_id, :value => @admin_team.team_id %>
+
+	<% end %>
+		<br>
+		<br>
+	    <%= f.label :タイトル %><br>
+	    <%= f.text_field :title ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'} %>
+		<br>
+		<br>
+	    <%= f.label :場所 %><br>
+	    <%= f.text_field :place ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
+		<br>
+		<br>
+	    <%= f.label :集合時間 %><br>
+	    <%= f.text_field :start_time ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
+		<br>
+		<br>
+	    <%= f.label :終了時間 %><br>
+	    <%= f.text_field :end_time ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
+		<br>
+		<br>
+	    <%= f.label :連絡事項 %><br>
+	    <%= f.text_area :memo ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
+		<br>
+		<br>
+		<br>
+	    <%= f.submit '作成', class:"wanaka-btn btn-width-wide btn-complete" %> 
+
+
+	<% end %>
+</div>
+
+<%= render 'partial/layout/footer'%>

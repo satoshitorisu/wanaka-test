@@ -1,0 +1,83 @@
+<%= render 'partial/layout/navbar'%>
+
+
+
+<div class="content">
+	<h1><%= @team.name %></h1>
+	<hr>
+
+		<%= attachment_image_tag @team, :image, :fill, 300, 300, format: 'jpeg' %>
+	<br>
+	<br>
+	<h2>チーム情報</h2>
+	<table class="table">
+	  <tbody>
+	    <tr>
+	      <td>チーム名</td>
+	      <td><%= @team.name %></td>
+	    </tr>
+	    <tr>
+	      <td>組織名</td>
+	      <td><%= @team.organization %></td>
+	    </tr>
+	    <tr>
+	      <td>活動地域</td>
+	      <td><%= @team.active_place %></td>
+
+	    </tr>
+	    <tr>
+	      <td>チームレベル</td>
+	      <td><%= @team.level %></td>
+	    </tr>
+	    <tr>
+	      <td>創設年</td>
+	      <td><%= @team.established_year %>年</td>
+	    </tr>
+	  </tbody>
+	</table>
+</div>
+
+<div class="content">
+	<h2>所属メンバー</h2>
+	<table class="table">
+	  <tbody>
+	    <tr>
+	      <td>No.</td>
+	      <td>氏名</td>
+	      <td>加入日</td>
+	      <td>管理者</td>
+	    </tr>
+			<% @members.each do |member| %>
+			    <tr>
+			    	<td></td>
+			      <td><%= member.user.first_name %> <%= member.user.last_name %></td>
+			      <td><%= member.user.created_at.strftime("%Y/%m/%d") %></td>
+			      <td><% if member.admin == 1 %>✔<% end %></td>
+			    </tr>
+			<% end %>
+	  </tbody>
+	</table>
+</div>
+
+
+
+<div class="content">
+	<%= link_to 'チームに招待', member_invite_path(@team) , class: "btn wanaka-btn btn-invite"%>
+	<%= link_to 'チームを編集', edit_team_path(@team), class: "btn wanaka-btn btn-edit"%>
+	<%#= link_to 'チームを削除', team_path(@team), :method => :delete , class: "btn wanaka-btn btn-delete"%>
+	<br>
+	<br>
+	<hr>
+	<small>
+		Wanaka登録日：<%= @team.created_at.strftime("%Y年 %m月 %d日") %></p>
+	</small>
+</div>
+
+<br>
+  <div class="frame-center">
+    <%= link_to '戻る', :back  ,class:"btn wanaka-btn btn-complete" %>
+  </div>
+<br>
+
+
+<%= render 'partial/layout/footer'%>

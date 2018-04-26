@@ -1,0 +1,52 @@
+<%= render 'partial/layout/navbar'%>
+<div class="content">
+	<h1>スケジュール詳細</h1>
+	<hr>
+
+
+
+
+	<%= @schedule.title %>
+	<%= @schedule.start_time %>
+	<%= @schedule.end_time %>
+	<%= @schedule.place %>
+
+</div>
+<div class="content">
+	<h1>参加状況</h1>
+	<hr>
+
+	<table class="table">
+	  <tbody>
+	    <tr>
+	      <td>氏名</td>
+	      <td></td>
+	    </tr>
+			<% @members.each do |member| %>
+			    <tr>
+			    	<td><%= member.user.first_name %> <%= member.user.last_name %></td>
+			    	<td>
+			    		<% if member.status == "0" %>
+			    			欠席
+			    		<% elsif member.status == "1" %>
+			    			出席
+			    		<% elsif member.status == "2" %>
+			    			保留
+			    		<% elsif member.status.nil? %>
+		    				未回答
+		    			<% else %>
+		    			??
+			    		<% end %>
+		    		</td>
+			    </tr>
+			<% end %>
+	  </tbody>
+	</table>
+	<br>
+	<br>
+	<%= link_to '戻る', :back  ,class:"btn wanaka-btn btn-complete" %>
+</div>
+<%= render 'partial/layout/footer'%>
+	<%#= link_to "承認", member_path(:member_invited, params: { :status => 2, :member_id => member.id }), :method => :put %>
+
+

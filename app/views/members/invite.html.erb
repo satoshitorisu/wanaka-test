@@ -1,0 +1,44 @@
+<%= render 'partial/layout/navbar'%>
+<div class="content">
+	<h1>メンバー検索</h1>
+	<small>招待したいユーザーのメールアドレスまたはユーザーネームを入力してください。</small>
+	<hr>
+	<%#= form_tag member_invite_path, :method => 'get' do %>
+	<%= form_tag member_invite_path do %>
+	  <p>
+	  	<%= hidden_field :searched_flag, :value => true %>
+	    <%= text_field_tag :search, params[:search] %>
+	    <%= submit_tag "Search", :name => nil %>
+	  </p>
+	<% end %>
+</div>
+<% if @user.presence %>
+	<div class="content">
+		<small>以下のユーザーがヒットしました。お探しのユーザーであれば、メッセージを入力の上、招待ボタンを押下してください。</small>
+		<ul>
+			<li>ユーザー名：<%= @user.username %> </li>
+			<li> 氏　名　：<%= @user.last_name %> <%= @user.first_name %> </li>
+		</ul>
+			<%= form_for(:member, url: members_path, method: :post ) do |f|  %>
+				<%= f.hidden_field :team_id, :value => params[:id] %>
+				<%= f.hidden_field :user_id, :value => @user.id %>
+				<%= f.hidden_field :admin, :value => 0 %>
+				<%= f.hidden_field :status, :value => 0 %>
+				<%= f.label :greeting %>
+				<%= f.text_field :greeting %><br>
+				<%= f.submit '投稿' %> 
+			<% end %>
+
+		<%= @search_result %>
+	</div>
+<% end %>
+
+
+<%= render 'partial/layout/footer'%>
+
+
+<style type="text/css" media="screen">
+	li {
+		list-style-type: none;
+	}
+</style>

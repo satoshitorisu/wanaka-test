@@ -1,0 +1,58 @@
+<%= render 'partial/layout/navbar'%>
+
+<div class="content">
+	<h1>チーム作成</h1>
+	<small>作成するチームの情報を入力してください。</small>
+	<hr>
+
+	<%= form_for @team, method: :post do |f| %>
+	    <%= f.label :チーム名 %><br>
+	    <%= f.text_field :name ,{required: 'true', autofocus: 'true', placeholder: " 例）チームタロウ" , class: 'form-control, form-width'} %>
+		<br>
+		<br>
+	    <%= f.label :組織名 %><br>
+	    <%= f.text_field :organization ,{required: 'true', autofocus: 'true', placeholder: "学校名/会社名/等" , class: 'form-control, form-width'} %>
+		<br>
+		<br>
+	    <%= f.label :活動地域 %><br>
+	    <%= f.text_field :active_place ,{required: 'true', autofocus: 'true', placeholder: " 例）関東/東京/港区/etc." , class: 'form-control, form-width'} %><br>
+			<small>※活動地域情報よりWanakaが近い対戦相手を提案します。</small>
+		<br>
+		<br>
+	    <%= f.label :レベル %><br>
+		<%= f.select :level,[
+			["初心者チーム","初心者チーム"],
+			["市区町村リーグ3部レベル","市区町村リーグ3部レベル"],
+			["市区町村リーグ2部レベル","市区町村リーグ2部レベル"],
+			["市区町村リーグ1部レベル","市区町村リーグ1部レベル"],
+			["地域(関東等)リーグ2部レベル","地域(関東、等)リーグ2部レベル"],
+			["地域(関東等)リーグ1部レベル","地域(関東、等)リーグ1部レベル"]
+			], {prompt:"選択してください"}, {required: 'true', autofocus: 'true', class: 'form-control, form-width'} %>
+		<br>
+			<small>※登録後の変更も可能です。</small>
+
+		<br>
+		<br>
+	    <%= f.label :創設年 %><br>
+	    <%= f.date_select :established_year ,{discard_day: true, discard_month: true,:start_year => 1950, :end_year => Date.today.year, required: 'true', autofocus: 'true' , class: 'form-control, form-width'} %>
+	    <%#= f.date_select :established_year ,{required: 'true', autofocus: 'true', placeholder: " 例）2000" , class: 'form-control, form-width'} %>
+	    <%#= f.text_field :established_year ,{required: 'true', autofocus: 'true', placeholder: " 例）2000" , class: 'form-control, form-width'} %>
+
+
+
+		<br>
+		<br>
+	    <%= f.label :チーム紹介文 ,class: "" %><br>
+	    <%= f.text_area :description ,{required: 'true', autofocus: 'true', placeholder: "他のチームの方へ紹介文をご記入ください。" , class: 'form-control, form-width' } %>
+		<br>
+		<br>
+	    <%= f.label :image %><br>
+		<%#= f.attachment_field :image %>
+		<%= f.attachment_field :image %>
+		<br>
+		<br>
+	    <%= f.submit '登録', class:"btn-width-wide wanaka-btn btn-create"%> 
+	<% end %>
+
+</div>
+<%= render 'partial/layout/footer'%>

@@ -1,0 +1,17 @@
+<header>
+	<%= link_to :root do %>
+		<div class="header-left">
+			wanaka
+		</div>
+	<% end %>
+	<div class="header-right">
+	    <% if user_signed_in? %>
+	      <%= current_user.email.sub!(/@.*/m, "") %>/
+	      <%= link_to "ログアウト", destroy_user_session_path, class: "header-right-btn",method: :delete %>
+
+		<% else %>
+			<%= link_to 'login', new_user_session_path , :class => "header-right-btn"%>/
+			<%= link_to 'sign up', new_user_registration_path , :class => "header-right-btn"%>
+		<% end %>
+	</div>
+</header><!-- /header -->

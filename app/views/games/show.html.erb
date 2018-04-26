@@ -1,0 +1,101 @@
+<%= render 'partial/layout/navbar'%>
+<div class="content">
+
+<h3>ゲーム詳細</h3 >
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>タイトル</td>
+        <td><%= @game.title %></td>
+      </tr>
+      <tr>
+        <td>組織名</td>
+        <td><%= @game.team.name %></td>
+      </tr>
+      <tr>
+        <td>開催</td>
+        <td><%= @game.start_time %></td>
+      </tr>
+      <tr>
+        <td>開始時間</td>
+        <td><%= @game.start_time %></td>
+      </tr>
+      <tr>
+        <td>終了時間</td>
+        <td><%= @game.end_time %></td>
+      </tr>
+      <tr>
+        <td>開催場所</td>
+        <td><%= @game.place %></td>
+      </tr>
+      <tr>
+        <td>チームレベル</td>
+        <td><span style="font-size: 12px;"><%= @game.team.level %></span></td>
+      </tr>
+      <tr>
+        <td>連絡事項</td>
+        <td><%= @game.memo %></td>
+      </tr>
+    </tbody>
+  </table>
+  <small><%= @game.created_at %></small>
+</div>
+<div class="frame-center">
+  <h2>
+    @<%= @game.place %>
+  </h2>
+</div>
+
+
+ <div id="map"></div>
+
+<br>
+  <div class="frame-center">
+    <%= link_to '戻る', :back  ,class:"btn wanaka-btn btn-complete" %>
+  </div>
+<br>
+
+<%= render 'partial/layout/footer'%>
+
+  <script>
+    function initMap() {
+      // Create the map.
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: {lat: <%= @game.latitude %>, lng: <%= @game.longitude %>},
+        mapTypeId: 'terrain'
+      });
+
+      // Construct the circle for each value in citymap.
+      // Note: We scale the area of the circle based on the population.
+
+      var cityCircle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        center: {lat: <%= @game.latitude %>, lng: <%= @game.longitude %>},
+        radius: 200
+      });
+    }
+
+  </script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDbqHekt0cQKZEC3tUcEkfkmJyFxcu9ww&callback=initMap">
+  </script>
+
+  <style>
+      #map {
+        height: 100%;
+      }
+      html, body {
+        width: 100%;
+        height: 360px;
+      }
+    </style>
+
+
+
+<%= link_to 'delete', game_path(@game), :method => :delete %>

@@ -1,0 +1,41 @@
+
+<%= render 'partial/layout/navbar'%>
+<div class="content">
+	<h1>スケジュール一覧</h1>
+	<hr>
+
+	<% @teams.each do |team| %>
+		<br><%= team.id %>|
+		<% team.schedules.each do |schedule| %>
+			<br>
+			<%= schedule.id %>
+			<%= schedule.title %>
+
+			<%= schedule.start_time.strftime("%H時 %M分") %>
+			<%= schedule.end_time.strftime("%H時 %M分") %>
+			<br>
+			<% if schedule.participates.present? %>
+				<%= link_to "参加(済)", participate_path(:participates, params: {:schedule_id => schedule.id, :status => 1}), :method => :put %>
+				<%= link_to "欠席(済)", participate_path(:participates, params: {:schedule_id => schedule.id, :status => 0}), :method => :put %>
+				<%= link_to "保留(済)", participate_path(:participates, params: {:schedule_id => schedule.id, :status => 2}), :method => :put %>
+
+				<%#= link_to '参加(登録済)', participates_path(:schedule_id => schedule.id, :status => 1), method: :put %>
+				<%#= link_to '欠席(登録済)', participates_path(:schedule_id => schedule.id, :status => 0), method: :put %>
+				<%#= link_to '保留(登録済)', participates_path(:schedule_id => schedule.id, :status => 2), method: :put %>
+			<% else %>
+				<%= link_to '参加(未)', participates_path(:schedule_id => schedule.id, :status => 1), method: :post %>
+				<%= link_to '欠席(未)', participates_path(:schedule_id => schedule.id, :status => 0), method: :post %>
+				<%= link_to '保留(未)', participates_path(:schedule_id => schedule.id, :status => 2), method: :post %>
+			<% end %>
+				<br>
+				<%= link_to '参加状況', participate_path(schedule.id) %>
+		<% end %>
+	<% end %>
+	<br>
+	<br>
+	<%= link_to '戻る', :back  ,class:"btn wanaka-btn btn-complete" %>
+</div>
+<%= render 'partial/layout/footer'%>
+	<%#= link_to "承認", member_path(:member_invited, params: { :status => 2, :member_id => member.id }), :method => :put %>
+
+

@@ -1,0 +1,25 @@
+<%= render 'partial/layout/navbar'%>
+<div class="content">
+	<h1>チーム検索</h1>
+	<small>加入したいチームのチームキーを入力してください。チームキーは管理者権限を持つユーザーにご確認ください。</small>
+	<hr>
+	<%= form_tag member_apply_path(:searched_flag, true), :method => 'get' do %>
+	  <p>
+	    <%= text_field_tag :search, params[:search] %>
+	    <%= submit_tag "Search", :name => nil %>
+	  </p>
+	<% end %>
+	<% if @team.presence %>
+		<%= form_for(:member, url: members_path, method: :post ) do |f|  %>
+		  <%= f.hidden_field :team_id, :value => @team.id %>
+		  <%= f.hidden_field :user_id, :value => current_user.id %>
+		  <%= f.hidden_field :admin, :value => 0 %>
+		  <%= f.hidden_field :status, :value => 1 %>
+    　<%= f.label :greeting %>
+    　<%= f.text_field :greeting %><br>
+    　<%= f.submit '申し込む' %> 
+		<% end %>
+	<% end %>
+	<%= @search_result %>
+</div>
+<%= render 'partial/layout/footer'%>

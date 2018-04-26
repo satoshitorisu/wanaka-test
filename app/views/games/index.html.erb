@@ -1,0 +1,48 @@
+
+<%= render 'partial/layout/navbar'%>
+
+<div class="content">
+	<h4>募集一覧</h4>
+	<hr>
+	<% @games.each do |game| %>
+		<div class="game-index-box clearfix">
+			<div class="game-index-box-img">
+				<%= attachment_image_tag game.team, :image, :fill, 80, 80, format: 'jpeg' %>
+			</div>
+			<div class="game-index-box-show">
+				gamename:<%= game.team %>
+				<%= game.title %>|<%= link_to 'show', game_path(game) %>|<%= link_to 'edit', edit_game_path(game) %>
+			</div>
+		</div>
+	<% end %>
+</div>
+<%= render 'partial/layout/footer'%>
+
+
+
+<style type="text/css" media="screen">
+	.game-index-box{
+		width: 100%;
+		/*border: 1px solid black;*/
+	}
+
+
+	.game-index-box-img{
+		float: left;
+		/*border: 1px solid black;*/
+		width: 30%;
+	}
+
+	.game-index-box-show{
+		/*border: 1px solid black;*/
+		float: left;
+		width: 70%;
+		padding-top: 14px;
+
+	}
+
+
+
+
+
+</style>

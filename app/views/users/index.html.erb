@@ -1,0 +1,14 @@
+<h1>Users#index</h1>
+<p>Find me in app/views/users/index.html.erb</p>
+
+
+<ul>
+	<li><%= current_user.username %></li>
+	<li><%= current_user.first_name %></li>
+	<li><%= current_user.last_name %></li>
+	<li><%= current_user.first_name_kana %></li>
+	<li><%= current_user.last_name_kana %></li>
+</ul>
+
+
+<%= link_to 'edit', edit_user_path(current_user) %>
