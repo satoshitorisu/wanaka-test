@@ -1,78 +1,150 @@
 <%= render 'partial/layout/navbar'%>
 <% if user_signed_in? %>
-<% if @invited %>
-	<section class="main-invited">
-		以下のチームより参加の申請があります。
-		<br>
-		<% @invited_by.each do |member| %>
-			<%= member.team.name %>
-			<%= member.greeting %>
-		<% end %>
-	</section>
-<% end %>
+	<% if @invited %>
+		<section class="main-invited">
+			以下のチームより参加の申請があります。
+			<br>
+			<% @invited_by.each do |member| %>
+				<%= member.team.name %>
+				<%= member.greeting %>
+			<% end %>
+		</section>
+	<% end %>
 
 	<% if @admin %>
-		<section class="content main-content-about">
-			<h3 class="laber-blue">スケジュール入力</h3>
-			<div class="content-text">
-			</div>
-				<%= link_to 'スケジュール入力', participates_path, class:"btn wanaka-btn btn-create" %>
-		</section>
 
-		<section class="content main-content-about">
-			<h3 class="laber-red">スケジュール</h3>
-			<div class="content-text">
-			</div>
-				<%= link_to 'スケジュール管理',  schedules_path, class:"btn wanaka-btn btn-invite" %>
-		</section>
+	  <div class="tab-wrap">
+	    <!-- active tab on page load gets checked attribute -->
+	    <input type="radio" id="tab1" name="tabGroup1" class="tab" checked>
+	    <label for="tab1">スケジュール</label>
 
-		<section class="content main-content-about">
-			<h3 class="laber-green">所属チーム</h3>
-			<div class="content-text">
-			</div>
-				<%= link_to 'チーム管理',  teams_path, class:"btn wanaka-btn btn-detail" %>
-		</section>
+	    <input type="radio" id="tab2" name="tabGroup1" class="tab">
+	    <label for="tab2">マッチメイク</label>
 
 
-		<section class="content main-content-about">
-			<h3 class="laber-blue">ゲーム管理</h3>
-			<div class="content-text">
-			</div>
-				<%= link_to 'ゲーム一覧', games_path, class:"btn wanaka-btn btn-create" %>
-			<h3 class="laber-blue">ゲーム管理</h3>
+	    <div class="tab__content">
+				<section class="content main-content-about">
+					<h3 class="laber-blue">スケジュール入力</h3>
+					<div class="content-text">
+					</div>
+						<%= link_to 'スケジュール入力', participates_path, class:"btn wanaka-btn btn-create" %>
+				</section>
+
+				<section class="content main-content-about">
+					<h3 class="laber-red">スケジュール</h3>
+					<div class="content-text">
+					</div>
+						<%= link_to 'スケジュール管理',  schedules_path, class:"btn wanaka-btn btn-invite" %>
+				</section>
+				<div class="new-schedule-btn-space"></div>
+
+
+				<div class="new-schedule-btn">
+					<%= link_to new_schedule_path do %>
+						<div class="new-schedule-btn-text">
+							+
+						</div>
+					<% end %>
+				</div>
+	    </div>
+
+	    <div class="tab__content">
+			<!-- <div class="content"> -->
+				<h4>募集情報一覧	/ <掲載した募集情報	</h4>
 				<br>
-				<%= link_to 'ゲーム作成', new_game_path, class:"btn wanaka-btn btn-create" %>
-		</section>
-	<%= render 'partial/layout/admin-footer'%>
-		<% elsif @member %>
-			<% if @brand_new %>
+				<% if @games.present? %>
+					<% @games.each do |game| %>
+						<div class="game-index-box clearfix">
+							<div class="game-index-box-img">
+								<%= attachment_image_tag game.team, :image, :fill, 180, 180, format: 'jpeg' %>
+							</div>
+							<div class="game-index-box-show">
+								<table class="table">
+								  <tbody>
+								    <tr>
+								      <td class="game-index-box-show-td">チーム名</td>
+								      <td class="game-index-box-show-td"><%= game.team.name %></td>
+								    </tr>
+								    <tr>
+								      <td class="game-index-box-show-td">タイトル:</td>
+								      <td class="game-index-box-show-td"><%= game.title %></td>
+								    </tr>
+								    <tr>
+								      <td class="game-index-box-show-td">場所:</td>
+								      <td class="game-index-box-show-td"><%= game.place %></td>
+
+								    </tr>
+								    <tr>
+								      <td class="game-index-box-show-td">チームレベル</td>
+								      <td class="game-index-box-show-td"><%= game.team.level %></td>
+								    </tr>
+								    <tr>
+								      <td class="game-index-box-show-td">コート代:</td>
+								      <td class="game-index-box-show-td">¥<%= game.price %>
+								      	<span class="game-index-box-show-detail"><%= link_to '>詳しくはこちら', game_path(game), class:"game-index-box-show-detail" %></span>
+								      </td>
+								    </tr>
+								  </tbody>
+								</table>
+							</div>
+						</div>
+					<% end %>
+				<% else %>
+					<small>
+						募集中の練習試合はありません。<br>
+						右下のボタンより募集してみてはいかがですか？
+					</small>
+				<% end %>
+				<br>
+
+
+
+
+				<div class="new-game-btn-space"></div>
+
+
+				<div class="new-game-btn">
+					<%= link_to new_game_path do %>
+						<div class="new-schedule-btn-text">
+							+
+						</div>
+					<% end %>
+				</div>
+			</div>
+
+	<!-- 		<section class="content main-content-about">
+				<h3 class="laber-green">所属チーム</h3>
+				<div class="content-text">
+				</div>
+					<%#= link_to 'チーム管理',  teams_path, class:"btn wanaka-btn btn-detail" %>
+			</section> -->
+
+		<%= render 'partial/layout/admin-footer'%>
+	<% else %>
+		<% if @brand_new %>
 			<section class="content main-content-about">
 				<h1>はじめに</h1>
 				<hr>
 				<small>Wanakaは、メンバー管理ツールになります。Wanakaの機能をご利用頂くにはまずメンバーに参加したいする必要があります。チームへの参加方法は、ご自身でチームを作成するか、既に他のユーザーによって作成するされたチームに参加することができます。</small>
 				<br>
 			</section>
-			<% end %>
-		<% else %>
-	<% end %>
+		<% end %>
 
-	<section class="content main-content-about">
-		<h3 class="laber-blue">既存のグループに参加</h3>
-		<div class="content-text">
-		</div>
-			<%= link_to 'チーム参加', member_apply_path, class:"btn wanaka-btn btn-create" %>
-		<br>
-		<br>
-		<h3 class="laber-yellow">新たにグループ作成</h3>
-		<div class="content-text">
-		</div>
-			<%= link_to 'チーム作成', new_team_path, class:"btn wanaka-btn btn-delete" %>
-	</section>
-
-	<% if @member or @brand_new %>
-		<%= render 'partial/layout/footer'%>
+		<section class="content main-content-about">
+			<h3 class="laber-blue">既存のグループに参加</h3>
+			<div class="content-text">
+			</div>
+				<%= link_to 'チーム参加', member_apply_path, class:"btn wanaka-btn btn-create" %>
+			<br>
+			<br>
+			<h3 class="laber-yellow">新たにグループ作成</h3>
+			<div class="content-text">
+			</div>
+				<%= link_to 'チーム作成', new_team_path, class:"btn wanaka-btn btn-delete" %>
+		</section>
+			<%= render 'partial/layout/footer'%>
 	<% end %>
-<% else %>
+<% else  %>
 
 <!-- サインインしていないユーザーが見るビュー -->
 	<section class="app-section app-section-image-top">
@@ -81,21 +153,6 @@
 		<p>New Social Service,<br>
 		#Wanaka / Join Us!</p>
 	</section>
-
-<!-- 	<section class="app-section bg-clr-main-join-top">
-		<div class="app-section-box text-center">
-			<div class="app-section-content clearfix">
-				<div class="app-section-content-2col">
-					<%#= link_to 'ログイン', teams_path, class:"login-text-top" %>
-				</div>
-				<div class="app-section-content-2col">
-					<%#= link_to '会員登録', teams_path, class:"signin-text-top" %>
-				</div>
-
-			</div>
-		</div>
-	</section>
- -->
 	<section class="app-section bg-clr-main-steps">
 		<div class="app-section-box text-center">
 			<div class="app-section-title">
@@ -105,7 +162,6 @@
 			<div class="app-section-content">
 				<small>Wanakaは、サッカー部のメンバー管理や練習試合調整などのチームを活動させる上での運用が面倒くさいと嘆く、某FFさんの想いより誕生した無料のチーム管理ツールとなります	。<br>Wanakaをご利用頂くことで、チーム内外のコミュニケーションを活性化させ、チームを運用をより円滑にしていただければ幸いです。</small>
 				<br>
-				<!-- <h4 class="text-center">What's More?</h4> -->
 			</div>
 		</div>
 	</section>
@@ -123,7 +179,7 @@
 				</div>
 				<div class="app-section-content-3col app-section-white-color">
 					<img src="images/test (1).svg" alt="">
-					出席確認
+					出席管理
 				</div>
 				<div class="app-section-content-3col app-section-white-color">
 					<img src="images/success.svg" alt="">
@@ -146,16 +202,16 @@
 			<hr>
 			<div class="app-section-content clearfix">
 				<div class="app-section-content-3col app-section-black-color">
-					<img src="images/hierarchical-structure.svg" alt="">
-					ログイン
-				</div>
-				<div class="app-section-content-3col app-section-black-color">
-					<img src="images/test (1).svg" alt="">
+					<img src="images/join-team.svg" alt="">
 					チームに参加
 				</div>
 				<div class="app-section-content-3col app-section-black-color">
-					<img src="images/success.svg" alt="">
-					スケジュール入力
+					<img src="images/calendar.svg" alt="">
+					スケジュール登録
+				</div>
+				<div class="app-section-content-3col app-section-black-color">
+					<img src="images/soccer-field.svg" alt="">
+					マッチング
 				</div>
 			</div>
 		</div>
@@ -170,10 +226,10 @@
 			</div>
 			<div class="app-section-content clearfix">
 				<div class="app-section-content-2col">
-					<%= link_to '登録?', teams_path, class:"signin-text" %>
+					<%= link_to '登録?', new_user_registration_path, class:"signin-text" %>
 				</div>
 				<div class="app-section-content-2col">
-					<%= link_to 'ログイン?', teams_path, class:"login-text" %>
+					<%= link_to 'ログイン?', new_user_session_path, class:"login-text" %>
 				</div>
 			</div>
 		</div>
@@ -220,7 +276,6 @@
 		/*border-bottom: 2px solid rgba(51,51,51,0.9);*/
 		border-bottom: 2px solid rgba(255,255,255,0.5);
 	}
-
 
 	.app-section-image-buttom-text{
 		font-size: 14	px;

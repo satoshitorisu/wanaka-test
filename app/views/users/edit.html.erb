@@ -5,8 +5,8 @@
 </header><!-- /header -->
 
 <div class="content">
-	<h1>ユーザー情報を登録</h1>
-	<small>メンバー管理を行う上で必要となる情報となります。</small>
+	<h1>ユーザー情報登録</h1>
+	<small>メンバー管理を行う上で必要となる情報を入力してください。</small>
 	<hr>
 	<%#= form_for @user,  action: "update", url: user_confirm_path do |f| %>
 
@@ -15,22 +15,26 @@
 		    <%= f.label :ユーザーネーム %><br>
 		    <%= f.text_field :username ,{required: 'true', autofocus: 'true',placeholder: " 例）yamada.taro", class: 'form-control, form-width'} %>
 		</div>
+		<br>
 
 	    <div class="form-group">
 		    <%= f.label :氏名 %><br>
 		    <%= f.text_field :first_name ,{required: 'true', autofocus: 'true', placeholder: " 例）山田" ,class: 'form-control, form-width'} %>
 		</div>
+		<br>
 
 	    <div class="form-group">
 		    <%= f.label :苗字%><br>
 		    <%= f.text_field :last_name ,{required: 'true', autofocus: 'true', placeholder: " 例）太郎" , class: 'form-control, form-width'} %>
 		</div>
+		<br>
 
 	    <div class="form-group">
 		    <%= f.label :誕生日 %><br>
-		    <%= f.text_field :birth_day ,{required: 'true', autofocus: 'true', placeholder: " 例）2000/7/1" , class: 'form-control, form-width'} %>
+		    <%= f.text_field :birth_day ,{required: 'true', autofocus: 'true', placeholder: " 例）2000/7/1" , class: 'form-control, form-width'} %><br>
+		<small>※チームの平均年齢を算出する為に利用します。</small>
 		</div>
-
+		<br>
 	    <div class="form-group">
 		    <%= f.label :生別 %><br>
 			<label><%= f.radio_button :sex, "male" %> 男</label>
@@ -41,5 +45,5 @@
 	<% end %>
 </div>
 
-
+<%= render 'partial/layout/footer'%>
 

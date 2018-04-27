@@ -10,15 +10,16 @@
 					<%= attachment_image_tag member.team, :image, :fill, 160, 160, format: 'jpeg' %>
 				</div>
 				<div class="team-index-box-info">
-					<h3>チーム名｜<%= member.team.name %></h3>
+					<h3>チーム名｜<%= member.team.name %>
 					<% if member.admin == 1 %>
 						<div class="admin-label">管理者</div>
 					<% end %>
+					</h3>
 					<hr>
-					<%= link_to 'show', team_path(member.team.id) %>
+					<%= link_to '詳細', team_path(member.team.id) ,class:"btn wanaka-btn btn-create btn-width-wide-col-3"%>
 					<% if member.admin == 1 %>
-						|<%= link_to 'edit', edit_team_path(member.team.id) %>
-						|<%= link_to 'invite', member_invite_path(member.team.id) %>
+						<%= link_to '編集', edit_team_path(member.team.id) ,class:"btn wanaka-btn btn-edit btn-width-wide-col-3" %>
+						<%= link_to '招待', member_invite_path(member.team.id) ,class:"btn wanaka-btn btn-invite btn-width-wide-col-3"%>
 					<% end %>
 				<%# end %>
 				</div>

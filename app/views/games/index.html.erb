@@ -7,42 +7,44 @@
 	<% @games.each do |game| %>
 		<div class="game-index-box clearfix">
 			<div class="game-index-box-img">
-				<%= attachment_image_tag game.team, :image, :fill, 80, 80, format: 'jpeg' %>
+				<%= attachment_image_tag game.team, :image, :fill, 180, 180, format: 'jpeg' %>
 			</div>
 			<div class="game-index-box-show">
-				gamename:<%= game.team %>
-				<%= game.title %>|<%= link_to 'show', game_path(game) %>|<%= link_to 'edit', edit_game_path(game) %>
+				<table class="table">
+				  <tbody>
+				    <tr>
+				      <td class="game-index-box-show-td">チーム名</td>
+				      <td class="game-index-box-show-td"><%= game.team.name %></td>
+				    </tr>
+				    <tr>
+				      <td class="game-index-box-show-td">タイトル:</td>
+				      <td class="game-index-box-show-td"><%= game.title %></td>
+				    </tr>
+				    <tr>
+				      <td class="game-index-box-show-td">場所:</td>
+				      <td class="game-index-box-show-td"><%= game.place %></td>
+
+				    </tr>
+				    <tr>
+				      <td class="game-index-box-show-td">チームレベル</td>
+				      <td class="game-index-box-show-td"><%= game.team.level %></td>
+				    </tr>
+				    <tr>
+				      <td class="game-index-box-show-td">コート代:</td>
+				      <td class="game-index-box-show-td">¥<%= game.price %>
+				      	<span class="game-index-box-show-detail"><%= link_to '>詳しくはこちら', game_path(game), class:"game-index-box-show-detail" %></span>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
 			</div>
 		</div>
 	<% end %>
 </div>
+
+
 <%= render 'partial/layout/footer'%>
 
-
-
 <style type="text/css" media="screen">
-	.game-index-box{
-		width: 100%;
-		/*border: 1px solid black;*/
-	}
-
-
-	.game-index-box-img{
-		float: left;
-		/*border: 1px solid black;*/
-		width: 30%;
-	}
-
-	.game-index-box-show{
-		/*border: 1px solid black;*/
-		float: left;
-		width: 70%;
-		padding-top: 14px;
-
-	}
-
-
-
-
 
 </style>
