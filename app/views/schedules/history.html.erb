@@ -1,0 +1,52 @@
+<%= render 'partial/layout/navbar'%>
+<div class="content">
+	<% @teams.each do |team| %>
+		<%# attachment_image_tag team, :image, :fill, 80, 80, format: 'jpeg' %><br>
+		<h3><%= team.name %></h3>
+	  	<% if team.schedules.where(["schedule_date < ?", Date.today]).present? %>
+			<table class="table">
+		    <tr>
+		      <!-- <td class="schedule-index-box-show-th">タイトル</td> -->
+		      <td class="schedule-index-box-show-th">日付</td>
+		      <td class="schedule-index-box-show-th">場所</td>
+		      <td class="schedule-index-box-show-th">出席状況<br>
+		      	<span style="font-size: 12px; font-weight: none;">(出席/保留/欠席)</span></td>
+		      <td class="schedule-index-box-show-th"></td>
+		    </tr>
+			  <tbody>
+
+
+				<% team.schedules.where(["schedule_date < ?", Date.today]).each do |schedule| %>
+
+					<%= link_to schedule_path(schedule.id) do %>
+					    <tr>
+					      <td class="schedule-index-box-show-td">
+					      	<%= schedule.schedule_date.strftime("%m/%d(#{@week_name[schedule.schedule_date.wday]})") %>
+					      	<%= schedule.start_time.strftime("%H:%M") %>-<%= schedule.end_time.strftime("%H:%M") %></td>
+					      <td class="schedule-index-box-show-td"><%= schedule.place %></td>
+					      <td class="schedule-index-box-show-td">
+					      	<%= @members.where(status: 1, schedule_id: schedule.id).count %>/
+					      	<%= @members.where(status: 2, schedule_id: schedule.id).count %>/
+					      	<%= @members.where(status: 0, schedule_id: schedule.id).count %>
+					  	  </td>
+					      <td class="schedule-index-box-show-td">
+					      	<% link_to "詳細", schedule_path(schedule.id) %>
+					      </td>
+					    </tr>
+			        <% end %>
+				 	<% end %>
+			  </tbody>
+			</table>
+				  
+
+				  <% else %>
+				  		<small>過去のスケジュールはありません。</small>
+			  	<% end %>
+		  	<div class="">
+		<br>
+			<%= link_to "現在のスケジュールを見る", schedules_path, class:"schedule-index-box-past"%>
+			<hr>
+		</div>
+	<% end %>
+</div>
+<%= render 'partial/layout/footer'%>

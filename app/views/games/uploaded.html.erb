@@ -2,17 +2,16 @@
 <%= render 'partial/layout/navbar'%>
 
 <div class="content">
-	<h4>募集情報一覧	/ 
-	<%= link_to "掲載した募集情報", games_uploaded_path(current_user.id)  %>	</h4>
+	<h4>募集情報一覧	/ 掲載した募集情報	</h4>
 	<br>
-	<% if @games.present? %>
+	<% if @game_uploaded.present? %>
 		<%#= page_entries_info @games %>
-		<% @games.each do |game| %>
-			<%= link_to game_path(game) do %>
-
+		<% @game_uploaded.each do |game| %>
 			<div class="game-index-box clearfix">
 				<div class="game-index-box-img">
+					<%= link_to game_path(game) do %>
 						<%= attachment_image_tag game.team, :image, :fill, 180, 180, format: 'jpeg' %>
+					<% end %>
 				</div>
 				<div class="game-index-box-show">
 					<table class="table">
@@ -21,32 +20,32 @@
 					      <td class="game-index-box-show-td">タイトル:</td>
 					      <td class="game-index-box-show-td"><%= game.title %></td>
 					    </tr>
-<!-- 					    <tr>
+					    <tr>
 					      <td class="game-index-box-show-td">チーム名</td>
-					      <td class="game-index-box-show-td"><%#= game.team.name %></td>
-					    </tr> -->
+					      <td class="game-index-box-show-td"><%= game.team.name %></td>
+					    </tr>
 					    <tr>
 					      <td class="game-index-box-show-td">場所:</td>
 					      <td class="game-index-box-show-td"><%= game.place %></td>
+
 					    </tr>
 					    <tr>
 					      <td class="game-index-box-show-td">チームレベル</td>
 					      <td class="game-index-box-show-td"><%= game.team.level %></td>
 					    </tr>
-<!-- 					    <tr>
+					    <tr>
 					      <td class="game-index-box-show-td">コート代:</td>
-					      <td class="game-index-box-show-td">¥<%#= game.price %>
+					      <td class="game-index-box-show-td">¥<%= game.price %>
+					      	<span class="game-index-box-show-detail"><%= link_to '>詳しくはこちら', game_path(game), class:"game-index-box-show-detail" %></span>
 					      </td>
 					    </tr>
- -->
- 					  </tbody>
+					  </tbody>
 					</table>
+
 				</div>
 			</div>
 		<% end %>
-
-		<% end %>
-		<%= paginate @games %>
+		<%= paginate @game_uploaded %>
 		<hr>
 	<% else %>
 		<small>
@@ -54,6 +53,7 @@
 			右下のボタンより募集してみてはいかがですか？
 		</small>
 	<% end %>
+	過去に掲載したゲームを見る
 	<br>
 		<div class="new-game-btn-space"></div>
 			<div class="new-game-btn">

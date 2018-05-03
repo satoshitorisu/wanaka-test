@@ -1,25 +1,81 @@
 <%= render 'partial/layout/navbar'%>
 <div class="content">
 	<h1>チーム検索</h1>
-	<small>加入したいチームのチームキーを入力してください。チームキーは管理者権限を持つユーザーにご確認ください。</small>
+	<small>加入したいチームのチームキーを入力してください。<br>チームキーは管理者権限を持つユーザーにご確認ください。</small>
+	<br><br>
 	<hr>
-	<%= form_tag member_apply_path(:searched_flag, true), :method => 'get' do %>
+	<%= form_tag member_apply_path, :method => 'get' do %>
+　  <%= hidden_field :searched_flag, :value => 1 %>
+
 	  <p>
 	    <%= text_field_tag :search, params[:search] %>
-	    <%= submit_tag "Search", :name => nil %>
+	    <%= submit_tag "検索", :name => nil %>
 	  </p>
 	<% end %>
-	<% if @team.presence %>
-		<%= form_for(:member, url: members_path, method: :post ) do |f|  %>
-		  <%= f.hidden_field :team_id, :value => @team.id %>
-		  <%= f.hidden_field :user_id, :value => current_user.id %>
-		  <%= f.hidden_field :admin, :value => 0 %>
-		  <%= f.hidden_field :status, :value => 1 %>
-    　<%= f.label :greeting %>
-    　<%= f.text_field :greeting %><br>
-    　<%= f.submit '申し込む' %> 
+
+	<% if @teams.presence %>
+		<hr>
+		<h2>検索結果</h2>
+		<% @teams.each do |team| %>
+			<div class="content">
+					<%= attachment_image_tag team, :image, :fill, 160, 160, format: 'jpeg' %>
+				<br>
+				<br>
+				<table class="table">
+				  <tbody>
+				    <tr>
+				      <td>チーム名</td>
+				      <td><%= team.name %></td>
+				    </tr>
+				    <tr>
+				      <td>組織名</td>
+				      <td><%= team.organization %></td>
+				    </tr>
+				    <tr>
+				      <td>活動地域</td>
+				      <td><%= team.active_place  %></td>
+				    </tr>
+				    <tr>
+				      <td>チームレベル</td>
+				      <td><%= team.level %></td>
+				    </tr>
+				    <tr>
+				      <td>創設年</td>
+				      <td><%= team.established_year %>年</td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+
+			<small>お探しのチームはこちらのチームでおまちがいないでしょうか？
+				<br>よろしければひとこと添えて申請しましょう。</small>
+			<br>
+			<br>
+			<%= form_for(:member, url: members_path, method: :post ) do |f|  %>
+			  <%= f.hidden_field :team_id, :value => team.id %>
+			  <%= f.hidden_field :user_id, :value => current_user.id %>
+			  <%= f.hidden_field :admin, :value => 0 %>
+			  <%= f.hidden_field :status, :value => 1 %>
+	    　<%= f.text_area :申請時のメッセージ  ,{placeholder: "ひとこと添えて申請ください。" , class: 'form-control, form-width' } %>
+	    　<%= f.submit '申し込む' , class:"btn wanaka-btn btn-create" %> 
+			<% end %>
+		
 		<% end %>
+
+	<% else %>
+		<br><hr><br>
+			<small>お探しのチームがない場合は、ご自身でチームを作成することもできます。<br>
+			下記のボタンよりチームを作成ください。</small><br><br>
+			<!-- <h3 class="laber-yellow">新たにグループ作成</h3> -->
+			<%= link_to 'チーム作成', new_team_path, class:"btn wanaka-btn btn-delete" %>
 	<% end %>
-	<%= @search_result %>
+	<%#= @search_result %>
+
+
 </div>
-<%= render 'partial/layout/footer'%>
+
+<% if @admin %>
+	<%= render 'partial/layout/admin-footer'%>
+<% elsif @member %>
+	<%= render 'partial/layout/footer'%>
+<% end %><%= render 'partial/layout/footer'%>

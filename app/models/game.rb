@@ -3,4 +3,5 @@ class Game < ApplicationRecord
 	after_validation :geocode, :if => :place_changed?
 
 	belongs_to :team
+	belongs_to :user
 end

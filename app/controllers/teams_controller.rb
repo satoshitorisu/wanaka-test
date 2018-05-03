@@ -2,7 +2,7 @@ class TeamsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_profile, only: [:index, :show, :update, :edit, :destroy, :new]
   before_action :set_team, only: [:show, :update, :edit, :destroy]
-
+  before_action :who_is_it, only: [:show, :edit, :index, :new]
 
   # @@error_msg = ""
 	def new
@@ -46,7 +46,6 @@ class TeamsController < ApplicationController
 			member.admin = true
 			member.status = 2
 			member.save
-			
 			redirect_to team_path(team.id)
 		else
 			redirect_to new_team_path
@@ -55,16 +54,22 @@ class TeamsController < ApplicationController
 
 	def index
 		@members = Member.where(user_id: current_user.id)
+		@applied = Member.where(status: 1)
+	    @week_name = ["日", "月", "火", "水", "木", "金", "土", "日"]
+
+
+
+		# debugger
 	end
 
 	def edit
 		@members = Member.where(team_id: params[:id])
-		# debugger
+
 	end
 
 	def show
 		@members = Member.where(team_id: params[:id])
-		# debugger
+
 	end
 
 	def update
@@ -99,4 +104,13 @@ class TeamsController < ApplicationController
 	  		redirect_to edit_user_path(current_user) , notice: "機能をご利用頂くにはプロフィールの設定が必要になります。"
 	  	end
 	  end
+      def who_is_it
+	      if user_signed_in?
+	        @admin_user = true if Member.where("user_id = ? and admin = ?",current_user.id, true).present?
+	        @member = true if Member.where("user_id = ? and admin = ?",current_user.id, false).present?
+	        # @brand_new = true unless Member.where("user_id = ? and admin = ?",current_user.id, false).present?
+	        @invited = true if Member.where("user_id = ? and status = ?",current_user.id, 0).present?
+	        # @invited_by = Member.where("user_id = ? and status = ?",current_user.id, 0)
+	      end
+	    end
 end

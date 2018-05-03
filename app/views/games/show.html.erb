@@ -9,36 +9,37 @@
         <td><%= @game.title %></td>
       </tr>
       <tr>
-        <td>組織名</td>
+        <td>チーム名</td>
         <td><%= @game.team.name %></td>
-      </tr>
-      <tr>
-        <td>開催</td>
-        <td><%= @game.start_time %></td>
-      </tr>
-      <tr>
-        <td>開始時間</td>
-        <td><%= @game.start_time %></td>
-      </tr>
-      <tr>
-        <td>終了時間</td>
-        <td><%= @game.end_time %></td>
-      </tr>
-      <tr>
-        <td>開催場所</td>
-        <td><%= @game.place %></td>
       </tr>
       <tr>
         <td>チームレベル</td>
         <td><span style="font-size: 16px;"><%= @game.team.level %></span></td>
       </tr>
       <tr>
+        <td>日時</td>
+        <td><%= @game.start_time.strftime("%Y/%m/%d")%> <%= @game.start_time.strftime("%H:%M") %>-<%= @game.start_time.strftime("%H:%M") %></td>
+      </tr>
+      <tr>
+        <td>開催場所</td>
+        <td><%= @game.place %></td>
+      </tr>
+      <tr>
         <td>連絡事項</td>
         <td><%= @game.memo %></td>
       </tr>
+      <tr>
+        <td>掲載者</td>
+        <td><%= @game.user.username %></td>
+      </tr>
     </tbody>
   </table>
-  <small><%= @game.created_at %></small>
+  <small>募集開始日時；<%= @game.created_at %></small>
+  <br>
+  <% unless @game.user.id == current_user.id %>
+    <%= link_to "申し込む", conversations_path(sender_id: current_user.id, recipient_id: @game.user.id), method: 'post',class: "btn btn-primary btn-full" %>
+    <%= link_to "メッセージを送る", conversations_path(sender_id: current_user.id, recipient_id: @game.user.id), method: 'post',class: "btn btn-danger btn-full" %>
+  <% end %>
 </div>
 <div class="frame-center">
   <h2>

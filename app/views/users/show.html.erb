@@ -1,6 +1,46 @@
-show.html.erb
 
-<h1>プロフィールを更新</h1>
-<%#= form_for @user,  action: "update", url: user_confirm_path do |f| %>
+<header>
+  <div class="header-left">
+    wanaka
+  </div>
+</header><!-- /header -->
 
-<%= link_to "メッセージを送る", conversations_path(sender_id: current_user.id, recipient_id: @user.id), method: 'post',class: "btn btn-danger btn-full" %>
+<div class="content">
+	<h1>ユーザー情報登録</h1>
+	<small>メンバー管理を行う上で必要となる情報を入力してください。</small>
+	<hr>
+	<%#= form_for @user,  action: "update", url: user_confirm_path do |f| %>
+
+	<h2>チーム情報</h2>
+	<table class="table">
+	  <tbody>
+	    <tr>
+	      <td>ユーザーネーム</td>
+	      <td><%= @user.username %></td>
+	    </tr>
+	    <tr>
+	      <td>氏名</td>
+	      <td><%= @user.first_name %> <%= @user.last_name %></td>
+	    </tr>
+	    <tr>
+	      <td>生まれ年</td>
+	      <td><%= @user.birth_day.strftime("%Y") %></td>
+	    </tr>
+	    <tr>
+	      <td>生別</td>
+	      <td>
+	      	<% if @user.sex == "male" %>
+	      		男
+      		<% else %>
+	      		女
+	      	<% end %>
+	    </tr>
+	  </tbody>
+	</table>
+</div>
+
+<% unless params[:id].to_s == current_user.id.to_s %>
+	<%= link_to "メッセージを送る", conversations_path(sender_id: current_user.id, recipient_id: @user.id), method: 'post',class: "btn btn-danger btn-full" %>
+<% end %>
+<%= render 'partial/layout/footer'%>
+

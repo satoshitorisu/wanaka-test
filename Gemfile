@@ -17,7 +17,6 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'bootstrap-sass', '~> 3.3.7'
 
-
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
 gem 'geocoder'
@@ -27,6 +26,7 @@ gem "refile-mini_magick"
 gem 'toastr-rails'
 gem "private_pub"
 gem "thin"
+gem 'kaminari'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,11 +1,7 @@
-<%= render 'partial/layout/navbar'%>
-
-
-
+	<%= render 'partial/layout/navbar'%>
 <div class="content">
 	<h1><%= @team.name %></h1>
 	<hr>
-
 		<%= attachment_image_tag @team, :image, :fill, 300, 300, format: 'jpeg' %>
 	<br>
 	<br>
@@ -23,7 +19,6 @@
 	    <tr>
 	      <td>活動地域</td>
 	      <td><%= @team.active_place %></td>
-
 	    </tr>
 	    <tr>
 	      <td>チームレベル</td>
@@ -42,17 +37,35 @@
 	<table class="table">
 	  <tbody>
 	    <tr>
-	      <td>No.</td>
+
 	      <td>氏名</td>
+	      <td>ステータス</td>
 	      <td>加入日</td>
-	      <td>管理者</td>
 	    </tr>
 			<% @members.each do |member| %>
 			    <tr>
-			    	<td></td>
-			      <td><%= member.user.first_name %> <%= member.user.last_name %></td>
-			      <td><%= member.user.created_at.strftime("%Y/%m/%d") %></td>
-			      <td><% if member.admin == 1 %>✔<% end %></td>
+			      <td class="schedule-index-box-show-td"><%= member.user.first_name %> <%= member.user.last_name %></td>
+			      <td class="schedule-index-box-show-td">
+			      	<div class="team-status-box">
+				      	<% if member.admin == 1 %>管理人
+					      	<% elsif member.status == 0 %>招待中
+					      	<% elsif member.status == 1 %>
+					      	<!-- 承認依頼<br> -->
+							<% if @admin_user %>
+						      	<small>承認依頼あり</small>
+						      	<%= link_to '承認', member_path(:member_id => member.id,:status => 2, :admin => 0, :team_id => member.team_id ),class:"approve-label" ,method: :patch%>
+						      	<%= link_to '却下', member_path(:member_id => member.id,:team_id => member.team_id) ,class:"deny-label" ,method: :delete%>
+							<% else %>
+								申請中
+							<% end %>
+					      	<% elsif member.status == 2 %>参加中
+				      	<% end %>
+			      	</div>
+
+			      </td>
+			      <td class="schedule-index-box-show-td"><%= member.user.created_at.strftime("%Y/%m/%d") %></td>
+
+			      </td>
 			    </tr>
 			<% end %>
 	  </tbody>
@@ -60,14 +73,15 @@
 </div>
 
 
-
 <div class="content">
-	<%= link_to 'チームに招待', member_invite_path(@team) , class: "btn wanaka-btn btn-invite"%>
-	<%= link_to 'チームを編集', edit_team_path(@team), class: "btn wanaka-btn btn-edit"%>
-	<%#= link_to 'チームを削除', team_path(@team), :method => :delete , class: "btn wanaka-btn btn-delete"%>
-	<br>
-	<br>
-	<hr>
+	<% if @admin %>
+		<%= link_to 'チームに招待', member_invite_path(@team) , class: "btn wanaka-btn btn-invite"%>
+		<%= link_to 'チームを編集', edit_team_path(@team), class: "btn wanaka-btn btn-edit"%>
+		<%#= link_to 'チームを削除', team_path(@team), :method => :delete , class: "btn wanaka-btn btn-delete"%>
+		<br>
+		<br>
+		<hr>
+	<% end %>
 	<small>
 		Wanaka登録日：<%= @team.created_at.strftime("%Y年 %m月 %d日") %></p>
 	</small>
@@ -78,6 +92,4 @@
     <%= link_to '戻る', :back  ,class:"btn wanaka-btn btn-complete" %>
   </div>
 <br>
-
-
 <%= render 'partial/layout/footer'%>

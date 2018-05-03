@@ -14,12 +14,15 @@
 	<hr>
 	<br>
     <div class="form-group">
+		<h2>ユーザーネーム：<%= @user.username %></h2>
+	</div>
+    <div class="form-group">
 		<h2>お名前：<%= @user.first_name %> <%= @user.last_name %></h2>
 	</div>
 
     <div class="form-group">
     	<h2>
-		生年月日：<%= @user.birth_day.strftime("%Y/%m/%d") %><br>
+		生まれ年：<%= @user.birth_day.strftime("%Y年") %><br>
     	</h2>
 	</div>
     <div class="form-group">

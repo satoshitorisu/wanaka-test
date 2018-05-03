@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_game, only: [:show, :update, :edit, :destroy]
+  before_action :who_is_it, only: [:new, :create, :index, :uploaded, :update]
 
   def new
     @game = Game.new
@@ -17,11 +18,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
-    # @game.team_id = 1
-    #要更新
-    # debugger
-
-
+    @game.status = 1
 
     if @game.save
       redirect_to games_path, notice: "申し込み内容を作成しました。"
@@ -31,7 +28,14 @@ class GamesController < ApplicationController
   end
 
   def index
-    @games = Game.all
+    # @games = Game.where.not(user_id: current_user.id).page(params[:page]).per(11)
+    @games = Game.where(["date_time < ? and user_id != ?", Date.today, current_user.id]).page(params[:page]).per(11)
+    # paginates_per 5
+    # debugger
+  end
+
+  def uploaded
+    @game_uploaded = Game.where(user_id: current_user.id).page(params[:page]).per(11)
     # debugger
   end
 
@@ -50,10 +54,29 @@ class GamesController < ApplicationController
 
   private
     def game_params
-      params.require(:game).permit(:title, :place, :price, :date_time, :memo, :start_time, :end_time, :team_id)
+      params.require(:game).permit(:title, :place, :price, :date_time, :memo, :start_time, :end_time, :team_id, :user_id)
     end
 
     def set_game
       @game = Game.find(params[:id])
     end
+    def who_is_it
+      if user_signed_in?
+        @admin_user = true if Member.where("user_id = ? and admin = ?",current_user.id, true).present?
+      end
+    end
 end
+
+
+# status
+# non-active:0
+# open:1
+# matched:
+
+
+
+
+
+
+
+

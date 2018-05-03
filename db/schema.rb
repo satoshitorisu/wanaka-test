@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_26_150003) do
+ActiveRecord::Schema.define(version: 2018_05_02_073735) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer "sender_id"
@@ -32,7 +32,11 @@ ActiveRecord::Schema.define(version: 2018_04_26_150003) do
     t.float "latitude"
     t.float "longitude"
     t.integer "team_id"
+    t.integer "status"
+    t.integer "user_id"
+    t.integer "competiter_id"
     t.index ["team_id"], name: "index_games_on_team_id"
+    t.index ["user_id"], name: "index_games_on_user_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -75,8 +79,12 @@ ActiveRecord::Schema.define(version: 2018_04_26_150003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "team_id"
-    t.datetime "start_time"
-    t.datetime "end_time"
+    t.date "schedule_date"
+    t.time "start_time"
+    t.time "end_time"
+    t.float "latitude"
+    t.float "longitude"
+    t.integer "schedule_id"
     t.index ["team_id"], name: "index_schedules_on_team_id"
   end
 

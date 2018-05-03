@@ -23,12 +23,14 @@ Rails.application.routes.draw do
 
   #Scheudle
     resources :schedules, :only => [:new, :create, :index, :show, :edit, :update, :destroy]
+    get 'schedule/history' => 'schedules#history', as: 'history_schedule'
 
   #Pparticipate
     resources :participates, :only => [:index, :create, :new, :update, :destroy, :show]
 
   #Game
     resources :games, :only => [:new, :create, :index, :show, :edit, :update, :destroy]
+    get 'games/uploaded/:id' => 'games#uploaded', as: 'games_uploaded'
 
   #Message
   resources :conversations, only: [:index, :create] do

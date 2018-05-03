@@ -1,33 +1,64 @@
 <%= render 'partial/layout/navbar'%>
 <div class="content">
-<% if @members.presence %>
-	<h1>所属チーム一覧</h1>
+	<% if @members.presence %>
+	<br>
+		<h2>所属チーム一覧</h2>
+		<!-- <div class="content"> -->
+			<% @members.each do |member| %>
+				<div class="team-index-box clearfix">
+					<div class="team-index-box-img">
+						<%= attachment_image_tag member.team, :image, :fill, 160, 160, format: 'jpeg' %>
+					</div>
+					<div class="team-index-box-info">
+						<br>
+						<h2><%= member.team.name %>
+						<% if member.admin == 1 %>
+							<div class="admin-label">管理者</div>
+						<% end %>
+						</h2>
+						<hr>
+						<% if member.status == 0 %>
+							申込があります。ご返信ください。
+						<% elsif member.status == 1 %>
+							申請中<br>
+							<small>（管理人による承認待ち）</small>
+						<% elsif member.status == 2 %>
+							<%= link_to '詳細', team_path(member.team.id) ,class:"btn wanaka-btn btn-create btn-width-wide-col-3"%>
+							<% if member.admin == 1 %>
+								<%= link_to '編集', edit_team_path(member.team.id) ,class:"btn wanaka-btn btn-edit btn-width-wide-col-3" %>
+								<%= link_to '招待', member_invite_path(member.team.id) ,class:"btn wanaka-btn btn-invite btn-width-wide-col-3"%>
+							<% end %>
+						<% end %>
+					</div>
+					<br>
+
+				</div>
+					<% if @applied.where(team_id: member.team.id).present?  && member.admin == 1%>
+						<%= link_to  team_path(member.team.id) do %>
+							<div class="team-index-box-applied">
+								承認待ちのユーザーがいます。<br>チーム詳細ページにあるメンバー一覧よりご確認ください。
+							</div>
+						<% end %>
+					<% end %>
+				<br>
+				<hr>
+			<% end %>
+		<!-- </div> -->
+	<% end %>
+	<small>新たにチームを作成したい場合は、以下のボタンより作成ください。</small>
+	<br><br>
+	<%= link_to new_team_path do %>
+		<%= link_to '新しくチームを作成', new_team_path ,class:"btn wanaka-btn btn-create btn-wider"%>
+	<% end %>
+	<br>
+	<br>
 </div>
-	<div class="content">
-		<% @members.each do |member| %>
-			<div class="team-index-box clearfix">
-				<div class="team-index-box-img">
-					<%= attachment_image_tag member.team, :image, :fill, 160, 160, format: 'jpeg' %>
-				</div>
-				<div class="team-index-box-info">
-					<h3>チーム名｜<%= member.team.name %>
-					<% if member.admin == 1 %>
-						<div class="admin-label">管理者</div>
-					<% end %>
-					</h3>
-					<hr>
-					<%= link_to '詳細', team_path(member.team.id) ,class:"btn wanaka-btn btn-create btn-width-wide-col-3"%>
-					<% if member.admin == 1 %>
-						<%= link_to '編集', edit_team_path(member.team.id) ,class:"btn wanaka-btn btn-edit btn-width-wide-col-3" %>
-						<%= link_to '招待', member_invite_path(member.team.id) ,class:"btn wanaka-btn btn-invite btn-width-wide-col-3"%>
-					<% end %>
-				<%# end %>
-				</div>
-			</div>
-		<% end %>
-	</div>
+
+<% if @admin %>
+	<%= render 'partial/layout/admin-footer'%>
+<% elsif @member %>
+	<%= render 'partial/layout/footer'%>
 <% end %>
-<%= render 'partial/layout/footer'%>
 
 <style type="text/css" media="screen">
 	.team-index-box-img{

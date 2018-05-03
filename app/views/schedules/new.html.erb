@@ -1,22 +1,21 @@
 <%= render 'partial/layout/navbar'%>
 
 <div class="content">
-	<h1>スケジュール管理</h1>
+	<h1>スケジュール作成</h1>
 	<hr>
 	<%= form_for(@schedule) do |f| %>
-
+	<H2>チーム名：
 	<% if @multi_teams %>
-		<%= f.select :team_id, @admin_team.map{|t| [t.id]} %>
+		<%= f.select :team_id, @admin_team.map{|t| [t.team.name , t.team.id]} , {prompt:"チーム選択してください"}, {required: 'true', autofocus: 'true', class: 'form-control, form-width'}%>
 
 	<% else %>
 		<%= @admin_team.team.name %>
-		
+
 	    <%#= f.hidden_field :team_id ,@admin_team.map{|1| [1.id]} %>
-		<%= f.hidden_field :team_id, :value => @admin_team.team_id %>
+		<%= f.hidden_field :team_id, :value => @admin_team.team_id ,required: 'true', autofocus: 'true', class: 'form-control, form-width' %>
 
 	<% end %>
-		<br>
-		<br>
+	</H2>
 	    <%= f.label :タイトル %><br>
 	    <%= f.text_field :title ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'} %>
 		<br>
@@ -25,20 +24,24 @@
 	    <%= f.text_field :place ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
 		<br>
 		<br>
+	    <%= f.label :開催日 %><br>
+	    <%= f.date_field :schedule_date ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
+		<br>
+		<br>
 	    <%= f.label :集合時間 %><br>
-	    <%= f.text_field :start_time ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
+	    <%= f.time_select :start_time ,{required: 'true', autofocus: 'true', placeholder: "" , minute_step: 5, class: 'form-control, form-width'}%>
 		<br>
 		<br>
 	    <%= f.label :終了時間 %><br>
-	    <%= f.text_field :end_time ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
+	    <%= f.time_select :end_time ,{required: 'true', autofocus: 'true', placeholder: "" , minute_step: 5, class: 'form-control, form-width'}%>
 		<br>
 		<br>
 	    <%= f.label :連絡事項 %><br>
-	    <%= f.text_area :memo ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
+	    <%= f.text_area :memo ,{autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
 		<br>
 		<br>
 		<br>
-	    <%= f.submit '作成', class:"wanaka-btn btn-width-wide btn-complete" %> 
+	    <%= f.submit '作成', class:"wanaka-btn btn-width-wide btn-create	" %> 
 
 
 	<% end %>

@@ -1,287 +1,294 @@
 <%= render 'partial/layout/navbar'%>
 <% if user_signed_in? %>
-	<% if @invited %>
-		<section class="main-invited">
-			以下のチームより参加の申請があります。
+<% if @invited %>
+	<section class="main-invited">
+		以下のチームより参加の申請があります。
+		<br>
+		<% @invited_by.each do |member| %>
+			<%= member.team.name %>
+			<%= member.greeting %>
+		<% end %>
+	</section>
+<% end %>
+
+<% if @admin %>
+	<div class="content">
+		<% @teams.each do |team| %>
+			<%# attachment_image_tag team, :image, :fill, 80, 80, format: 'jpeg' %><br>
+			<h3><%= team.name %></h3>
+				<table class="table">
+			    <tr>
+			      <td class="schedule-index-box-show-th">タイトル</td>
+			      <td class="schedule-index-box-show-th">日付</td>
+			      <td class="schedule-index-box-show-th">場所</td>
+			      <td class="schedule-index-box-show-th">出席状況<br>
+			      	<span style="font-size: 12px; font-weight: none;">(出席/欠席/保留)</span></td>
+			      <td class="schedule-index-box-show-th"></td>
+			    </tr>
+				  <tbody>
+					<% team.schedules.each do |schedule| %>
+					    <tr>
+					      <td class="schedule-index-box-show-td"><%= schedule.title %></td>
+					      <td class="schedule-index-box-show-td">
+					      	<%= schedule.schedule_date.strftime("%m/%d(#{@week_name[schedule.schedule_date.wday]})") %>
+					      	<%= schedule.start_time.strftime("%H:%M") %>-<%= schedule.end_time.strftime("%H:%M") %></td>
+					      <td class="schedule-index-box-show-td"><%= schedule.place %></td>
+					      <td class="schedule-index-box-show-td">
+					      	<%= @members.where(status: 1, schedule_id: schedule.id).count %>/
+					      	<%= @members.where(status: 0, schedule_id: schedule.id).count %>/
+					      	<%= @members.where(status: 2, schedule_id: schedule.id).count %>
+					  	  </td>
+					      <td class="schedule-index-box-show-td">
+					      	<%= link_to "詳細", schedule_path(schedule) %>
+					      </td>
+					    </tr>
+				 	<% end %>
+				  </tbody>
+				</table>
+			<div class="">
 			<br>
-			<% @invited_by.each do |member| %>
-				<%= member.team.name %>
-				<%= member.greeting %>
-			<% end %>
-		</section>
-	<% end %>
-
-	<% if @admin %>
-
-	  <div class="tab-wrap">
-	    <!-- active tab on page load gets checked attribute -->
-	    <input type="radio" id="tab1" name="tabGroup1" class="tab" checked>
-	    <label for="tab1">スケジュール</label>
-
-	    <input type="radio" id="tab2" name="tabGroup1" class="tab">
-	    <label for="tab2">マッチメイク</label>
-
-
-	    <div class="tab__content">
-				<section class="content main-content-about">
-					<h3 class="laber-blue">スケジュール入力</h3>
-					<div class="content-text">
-					</div>
-						<%= link_to 'スケジュール入力', participates_path, class:"btn wanaka-btn btn-create" %>
-				</section>
-
-				<section class="content main-content-about">
-					<h3 class="laber-red">スケジュール</h3>
-					<div class="content-text">
-					</div>
-						<%= link_to 'スケジュール管理',  schedules_path, class:"btn wanaka-btn btn-invite" %>
-				</section>
-				<div class="new-schedule-btn-space"></div>
-
-
-				<div class="new-schedule-btn">
-					<%= link_to new_schedule_path do %>
-						<div class="new-schedule-btn-text">
-							+
-						</div>
-					<% end %>
-				</div>
-	    </div>
-
-	    <div class="tab__content">
-			<!-- <div class="content"> -->
-				<h4>募集情報一覧	/ <掲載した募集情報	</h4>
-				<br>
-				<% if @games.present? %>
-					<% @games.each do |game| %>
-						<div class="game-index-box clearfix">
-							<div class="game-index-box-img">
-								<%= attachment_image_tag game.team, :image, :fill, 180, 180, format: 'jpeg' %>
-							</div>
-							<div class="game-index-box-show">
-								<table class="table">
-								  <tbody>
-								    <tr>
-								      <td class="game-index-box-show-td">チーム名</td>
-								      <td class="game-index-box-show-td"><%= game.team.name %></td>
-								    </tr>
-								    <tr>
-								      <td class="game-index-box-show-td">タイトル:</td>
-								      <td class="game-index-box-show-td"><%= game.title %></td>
-								    </tr>
-								    <tr>
-								      <td class="game-index-box-show-td">場所:</td>
-								      <td class="game-index-box-show-td"><%= game.place %></td>
-
-								    </tr>
-								    <tr>
-								      <td class="game-index-box-show-td">チームレベル</td>
-								      <td class="game-index-box-show-td"><%= game.team.level %></td>
-								    </tr>
-								    <tr>
-								      <td class="game-index-box-show-td">コート代:</td>
-								      <td class="game-index-box-show-td">¥<%= game.price %>
-								      	<span class="game-index-box-show-detail"><%= link_to '>詳しくはこちら', game_path(game), class:"game-index-box-show-detail" %></span>
-								      </td>
-								    </tr>
-								  </tbody>
-								</table>
-							</div>
-						</div>
-					<% end %>
-				<% else %>
-					<small>
-						募集中の練習試合はありません。<br>
-						右下のボタンより募集してみてはいかがですか？
-					</small>
-				<% end %>
-				<br>
-
-
-
-
-				<div class="new-game-btn-space"></div>
-
-
-				<div class="new-game-btn">
-					<%= link_to new_game_path do %>
-						<div class="new-schedule-btn-text">
-							+
-						</div>
-					<% end %>
-				</div>
-			</div>
-
-	<!-- 		<section class="content main-content-about">
-				<h3 class="laber-green">所属チーム</h3>
-				<div class="content-text">
-				</div>
-					<%#= link_to 'チーム管理',  teams_path, class:"btn wanaka-btn btn-detail" %>
-			</section> -->
-
-		<%= render 'partial/layout/admin-footer'%>
-	<% else %>
-		<% if @brand_new %>
-			<section class="content main-content-about">
-				<h1>はじめに</h1>
+				<%= link_to "過去のスケジュールを見る", root_path, class:"schedule-index-box-past"%>
 				<hr>
-				<small>Wanakaは、メンバー管理ツールになります。Wanakaの機能をご利用頂くにはまずメンバーに参加したいする必要があります。チームへの参加方法は、ご自身でチームを作成するか、既に他のユーザーによって作成するされたチームに参加することができます。</small>
-				<br>
-			</section>
+			</div>
 		<% end %>
 
+		<div class="new-schedule-btn">
+			<%= link_to new_schedule_path do %>
+				<div class="new-schedule-btn-text">
+					+
+				</div>
+			<% end %>
+		</div>
+		<%= render 'partial/layout/admin-footer'%>
+	</div>
+
+	<% else %>
+	<% if @brand_new %>
 		<section class="content main-content-about">
-			<h3 class="laber-blue">既存のグループに参加</h3>
-			<div class="content-text">
-			</div>
-				<%= link_to 'チーム参加', member_apply_path, class:"btn wanaka-btn btn-create" %>
+			<h1>はじめに</h1>
+			<hr>
+			<small>Wanakaは、メンバー管理ツールになります。Wanakaの機能をご利用頂くにはまずメンバーに参加したいする必要があります。チームへの参加方法は、ご自身でチームを作成するか、既に他のユーザーによって作成するされたチームに参加することができます。</small>
 			<br>
-			<br>
-			<h3 class="laber-yellow">新たにグループ作成</h3>
-			<div class="content-text">
-			</div>
-				<%= link_to 'チーム作成', new_team_path, class:"btn wanaka-btn btn-delete" %>
 		</section>
-			<%= render 'partial/layout/footer'%>
 	<% end %>
+	<section class="content main-content-about">
+
+
+	<% if @member %>
+		<% @teams.each do |team| %>
+			<%# attachment_image_tag team, :image, :fill, 80, 80, format: 'jpeg' %><br>
+			<h3><%= team.name %></h3>
+				<table class="table">
+			    <tr>
+			      <!-- <td class="schedule-index-box-show-th">タイトル</td> -->
+			      <td class="schedule-index-box-show-th">日付</td>
+			      <td class="schedule-index-box-show-th">タイトル<br>@場所</td>
+			      <td class="schedule-index-box-show-th">出欠確認</td>
+			      <td class="schedule-index-box-show-th">出席状況<br>
+			      	<span style="font-size: 12px; font-weight: none;">(出席/保留/欠席)</span></td>
+			    </tr>
+				  <tbody>
+					<% team.schedules.where(["schedule_date >= ?", Date.today]).each do |schedule| %>
+						<%= link_to schedule_path(schedule.id) do %>
+						    <tr>
+						      <td class="schedule-index-box-show-td">
+						      	<%= schedule.schedule_date.strftime("%m/%d(#{@week_name[schedule.schedule_date.wday]})") %><br>
+						      	<%= schedule.start_time.strftime("%H:%M") %>-<%= schedule.end_time.strftime("%H:%M") %>
+						      </td>
+						      <td class="schedule-index-box-show-td">
+						      	<%= link_to schedule_path(schedule.id) , class:"schedule-index-box-show-td" do %>
+						      		<%= schedule.title %><br>
+						      		@<%= schedule.place %>
+						      	<% end %>
+					          </td>
+						      <td class="schedule-index-box-show-td schedule-index-box-show-td-fix">
+						      	<% if schedule.participates.present? %>
+						      		<%# if @members.find_by(schedule_id: schedule.id).status == 1 %>
+						      		<% if @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "1" %>
+								      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label" ,method: :patch%>
+								      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label-active" ,method: :patch%>
+								      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label-active" ,method: :patch%>
+						      		<% elsif @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "0" %>
+								      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label-active" ,method: :patch%>
+								      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label-active" ,method: :patch%>
+								      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label" ,method: :patch%>
+						      		<% elsif @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "2" %>
+								      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label-active" ,method: :patch%>
+								      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label" ,method: :patch%>
+								      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label-active" ,method: :patch%>
+						      		<% end %>
+
+
+						      	<% else %>
+							      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label" ,method: :patch%>
+							      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label" ,method: :patch%>
+							      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label" ,method: :patch%>
+						      	<% end %>
+						      </td>
+						      <td class="schedule-index-box-show-td">
+						      	<%= @members.where(status: 1, schedule_id: schedule.id).count %>/
+						      	<%= @members.where(status: 2, schedule_id: schedule.id).count %>/
+						      	<%= @members.where(status: 0, schedule_id: schedule.id).count %>
+						  	  </td>
+						    </tr>
+				        <% end %>
+				 	<% end %>
+				  </tbody>
+				</table>
+			<div class="">
+			<br>
+				<%= link_to "過去のスケジュールを見る", history_schedule_path, class:"schedule-index-box-past"%>
+				<hr>
+			</div>
+		<% end %>
+
+
+	<% end %>
+
+
+	</section>
+	<%= render 'partial/layout/footer'%>
+<% end %>
+
+
 <% else  %>
 
 <!-- サインインしていないユーザーが見るビュー -->
-	<section class="app-section app-section-image-top">
-		<img src="images/people-1284253_1920.jpg" alt="">
-		<!-- <div class= "main-view-img"></div> -->
-		<p>New Social Service,<br>
-		#Wanaka / Join Us!</p>
-	</section>
-	<section class="app-section bg-clr-main-steps">
-		<div class="app-section-box text-center">
-			<div class="app-section-title">
-				<h1>What' Wanaka?</h1>
-				<hr>
-			</div>
-			<div class="app-section-content">
-				<small>Wanakaは、サッカー部のメンバー管理や練習試合調整などのチームを活動させる上での運用が面倒くさいと嘆く、某FFさんの想いより誕生した無料のチーム管理ツールとなります	。<br>Wanakaをご利用頂くことで、チーム内外のコミュニケーションを活性化させ、チームを運用をより円滑にしていただければ幸いです。</small>
-				<br>
-			</div>
-		</div>
-	</section>
-
-	<section class="app-section bg-clr-main-features">
-		<div class="app-section-box text-center">
-			<div class="app-section-title app-section-title-white">
-				<h1 class="app-section-white-color">FEATURES</h1>
-				<hr>
-			</div>
-			<div class="app-section-content clearfix">
-				<div class="app-section-content-3col app-section-white-color">
-					<img src="images/hierarchical-structure.svg" alt="">
-					メンバー管理
-				</div>
-				<div class="app-section-content-3col app-section-white-color">
-					<img src="images/test (1).svg" alt="">
-					出席管理
-				</div>
-				<div class="app-section-content-3col app-section-white-color">
-					<img src="images/success.svg" alt="">
-					マッチング
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section class="app-section app-section-image-buttom">
-		<div class="app-section-image-buttom-cover"></div>
-		<img src="images/boys-2769553_1920.jpg" alt="">
-		<p class="app-section-image-buttom-text">#Hey, <br>Want to join us?<br>Steps below.</p>
-	</section>
-
-	<!-- unsigned in -->
-	<section class="app-section bg-clr-main-steps">
-		<div class="text-center">
-			<h1 class="main-steps-text">STEPS</h1>
+<section class="app-section app-section-image-top">
+	<img src="images/people-1284253_1920.jpg" alt="">
+	<!-- <div class= "main-view-img"></div> -->
+	<p>New Social Service,<br>
+	#Wanaka / Join Us!</p>
+</section>
+<section class="app-section bg-clr-main-steps">
+	<div class="app-section-box text-center">
+		<div class="app-section-title">
+			<h1>What' Wanaka?</h1>
 			<hr>
-			<div class="app-section-content clearfix">
-				<div class="app-section-content-3col app-section-black-color">
-					<img src="images/join-team.svg" alt="">
-					チームに参加
-				</div>
-				<div class="app-section-content-3col app-section-black-color">
-					<img src="images/calendar.svg" alt="">
-					スケジュール登録
-				</div>
-				<div class="app-section-content-3col app-section-black-color">
-					<img src="images/soccer-field.svg" alt="">
-					マッチング
-				</div>
-			</div>
 		</div>
-	</section>
-	<!-- unsigned in -->
-	<section class="app-section bg-clr-main-join">
-		<div class="app-section-box text-center">
-			<div class="app-section-title app-section-title-white">
-				<h1 class="app-section-white-color">Join us</h1>
-			<hr>
+		<div class="app-section-content">
+			<small>Wanakaは、サッカー部のメンバー管理や練習試合調整などのチームを活動させる上での運用が面倒くさいと嘆く、某FFさんの想いより誕生した無料のチーム管理ツールとなります	。<br>Wanakaをご利用頂くことで、チーム内外のコミュニケーションを活性化させ、チームを運用をより円滑にしていただければ幸いです。</small>
 			<br>
+		</div>
+	</div>
+</section>
+
+<section class="app-section bg-clr-main-features">
+	<div class="app-section-box text-center">
+		<div class="app-section-title app-section-title-white">
+			<h1 class="app-section-white-color">FEATURES</h1>
+			<hr>
+		</div>
+		<div class="app-section-content clearfix">
+			<div class="app-section-content-3col app-section-white-color">
+				<img src="images/hierarchical-structure.svg" alt="">
+				メンバー管理
 			</div>
-			<div class="app-section-content clearfix">
-				<div class="app-section-content-2col">
-					<%= link_to '登録?', new_user_registration_path, class:"signin-text" %>
-				</div>
-				<div class="app-section-content-2col">
-					<%= link_to 'ログイン?', new_user_session_path, class:"login-text" %>
-				</div>
+			<div class="app-section-content-3col app-section-white-color">
+				<img src="images/test (1).svg" alt="">
+				出席管理
+			</div>
+			<div class="app-section-content-3col app-section-white-color">
+				<img src="images/success.svg" alt="">
+				マッチング
 			</div>
 		</div>
-	</section>
-	<br>
-	<%= render 'partial/layout/footer'%>
-	<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+	</div>
+</section>
+
+<section class="app-section app-section-image-buttom">
+	<div class="app-section-image-buttom-cover"></div>
+	<img src="images/boys-2769553_1920.jpg" alt="">
+	<p class="app-section-image-buttom-text">#Hey, <br>Want to join us?<br>Steps below.</p>
+</section>
+
+<!-- unsigned in -->
+<section class="app-section bg-clr-main-steps">
+	<div class="text-center">
+		<h1 class="main-steps-text">STEPS</h1>
+		<hr>
+		<div class="app-section-content clearfix">
+			<div class="app-section-content-3col app-section-black-color">
+				<img src="images/join-team.svg" alt="">
+				チームに参加
+			</div>
+			<div class="app-section-content-3col app-section-black-color">
+				<img src="images/calendar.svg" alt="">
+				スケジュール登録
+			</div>
+			<div class="app-section-content-3col app-section-black-color">
+				<img src="images/soccer-field.svg" alt="">
+				マッチング
+			</div>
+		</div>
+	</div>
+</section>
+<!-- unsigned in -->
+<section class="app-section bg-clr-main-join">
+	<div class="app-section-box text-center">
+		<div class="app-section-title app-section-title-white">
+			<h1 class="app-section-white-color">Join us</h1>
+		<hr>
+		<br>
+		</div>
+		<div class="app-section-content clearfix">
+			<div class="app-section-content-2col">
+				<%= link_to '登録?', new_user_registration_path, class:"signin-text" %>
+			</div>
+			<div class="app-section-content-2col">
+				<%= link_to 'ログイン?', new_user_session_path, class:"login-text" %>
+			</div>
+		</div>
+	</div>
+</section>
+<br>
+<%= render 'partial/layout/footer'%>
+<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 <% end %>
 <style type="text/css" media="screen">
-	.app-section{
-		position: relative;
-	}
-	.app-section-image-top p{
-		font-size: 36px;
-		position: absolute;
-		color: white;
-		width: 80%;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%,-50%);
-		margin:0;/*余計な隙間を除く*/
-		text-align: center;
-		border: solid white 6px;
-		padding: 7px;/*文字と線の間の余白*/
-		text-decoration: none;/*下線を表示させない*/
-	}
+.app-section{
+	position: relative;
+}
+.app-section-image-top p{
+	font-size: 36px;
+	position: absolute;
+	color: white;
+	width: 80%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	margin:0;/*余計な隙間を除く*/
+	text-align: center;
+	border: solid white 6px;
+	padding: 7px;/*文字と線の間の余白*/
+	text-decoration: none;/*下線を表示させない*/
+}
 
-	.app-section-image-buttom p{
-		font-size: 60px;
-		position: absolute;
-		background-color: rgba(255,212,100,0.8);
-		color: white;
-		width: 80%;
-		height: 190px;
-		/*height: 100%;*/
-		line-height: 54px;
-		top: 36%;
-		left: 50%;
-		transform: translate(-50%,-50%);
-		margin:0;/*余計な隙間を除く*/
-		text-align: center;
-		padding: 7px;/*文字と線の間の余白*/
-		text-decoration: none;/*下線を表示させない*/
-		/*border-bottom: 2px solid rgba(51,51,51,0.9);*/
-		border-bottom: 2px solid rgba(255,255,255,0.5);
-	}
+.app-section-image-buttom p{
+	font-size: 60px;
+	position: absolute;
+	background-color: rgba(255,212,100,0.8);
+	color: white;
+	width: 80%;
+	height: 190px;
+	/*height: 100%;*/
+	line-height: 54px;
+	top: 36%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	margin:0;/*余計な隙間を除く*/
+	text-align: center;
+	padding: 7px;/*文字と線の間の余白*/
+	text-decoration: none;/*下線を表示させない*/
+	/*border-bottom: 2px solid rgba(51,51,51,0.9);*/
+	border-bottom: 2px solid rgba(255,255,255,0.5);
+}
 
-	.app-section-image-buttom-text{
-		font-size: 14	px;
-	}
+.app-section-image-buttom-text{
+	font-size: 14	px;
+}
 
-	.app-section img{
-		width: 100%;
-	}
+.app-section img{
+	width: 100%;
+}
 </style>

@@ -1,4 +1,123 @@
-<h1>Schedules#show</h1>
-<p>Find me in app/views/schedules/show.html.erb</p>
+<%= render 'partial/layout/navbar'%>
+<div class="content">
+	<h2>スケジュール詳細</h2>
+	<p><%#= @schedule.title %></p>
 
-<%= link_to 'delete', schedule_path(@schedule), :method => :delete %>
+	<!-- <h2>スケジュール詳細</h2> -->
+	<table class="table">
+	  <tbody>
+	    <tr>
+	      <td>場所</td>
+	      <td><%= @schedule.place %></td>
+	    </tr>
+	    <tr>
+	      <td>開催日</td>
+	      <td><%= @schedule.schedule_date.strftime("%m/%d(#{@week_name[@schedule.schedule_date.wday]})") %></td>
+	    </tr>
+	    <tr>
+	      <td>日時</td>
+	      <td><%= @schedule.start_time.strftime("%H:%M") %>-<%= @schedule.end_time.strftime("%H:%M") %>
+	      	</td>
+	    </tr>
+	    <tr>
+	      <td>連絡事項</td>
+	      <td><%= @schedule.memo %></td>
+	    </tr>
+	  </tbody>
+	</table>
+
+
+<br><br>
+	<div id="map"></div>
+
+
+	<h2>出席状況<br>
+		出席：<%= @attend %>名
+		欠席：<%= @absence %>名
+		保留：<%= @pend %>名
+	</h2>
+	<table class="table">
+	  <tbody>
+	    <tr>
+	      <td>氏名</td>
+	      <td>出欠状況</td>
+	    </tr>
+	  	
+	    <% @participates.each do |participate| %>
+	    <tr>
+	      <td class="schedule-index-box-show-td"><%= participate.user.first_name %> <%= participate.user.last_name %></td>
+	      <td class="schedule-index-box-show-td">
+	      <% if participate.status == "1" %>
+	      	出席
+	      	<% elsif participate.status == "0" %>
+	      	欠席
+	      	<% elsif participate.status == "2" %>
+	      	保留
+	      	<% else %>
+	      	xxx
+	      <% end %>
+	      	</td>
+	    </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+</div>
+
+<% if @admin %>
+	<div class="content">
+		<%= link_to '編集', edit_schedule_path(@schedule) , class: "btn wanaka-btn btn-edit"%>
+		<%= link_to '削除', schedule_path(@schedule), :method => :delete, class: "btn wanaka-btn btn-invite"%>
+		<br>
+		<br>
+	</div>
+<% end %>
+
+<br>
+  <div class="frame-center">
+    <%= link_to '戻る', :back  ,class:"btn wanaka-btn btn-complete" %>
+  </div>
+<br>
+<%= @schedule.latitude %>
+
+<%= render 'partial/layout/footer'%>
+
+  <script>
+    function initMap() {
+      // Create the map.
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: {lat: <%= @schedule.latitude %>, lng: <%= @schedule.longitude %>},
+        mapTypeId: 'terrain'
+      });
+
+      // Construct the circle for each value in citymap.
+      // Note: We scale the area of the circle based on the population.
+
+      var cityCircle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        center: {lat: <%= @schedule.latitude %>, lng: <%= @schedule.longitude %>},
+        radius: 200
+      });
+    }
+
+  </script>
+
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1n2Qr7tJSu63bp2PQLMkTcwWzFbVF6S4&callback=initMap">
+  </script>
+<!-- AIzaSyB1n2Qr7tJSu63bp2PQLMkTcwWzFbVF6S4 -->
+
+  <style>
+      #map {
+        height: 100%;
+      }
+      html, body {
+        width: 100%;
+        height: 360px;
+      }
+    </style>

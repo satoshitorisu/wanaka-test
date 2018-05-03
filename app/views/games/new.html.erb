@@ -3,16 +3,14 @@
 	<h1>練習相手募集</h1>
 	<hr>
 	<%= form_for(@game) do |f| %>
-
-
 		<% if @multi_teams %>
 			<%= f.select :team_id, @admin_team.map{|t| [t.id]} %>
 
 		<% else %>
 			<%= @admin_team.team.name %>
 			<%= f.hidden_field :team_id, :value => @admin_team.team_id %>
-
 	<% end %>
+		<%= f.hidden_field :user_id, :value => current_user.id %>
 	    <%= f.label :タイトル %><br>
 	    <%= f.text_field :title ,{required: 'true', autofocus: 'true', placeholder: "ゲーム募集一覧に表示されるタイトルになります。	" , class: 'form-control, form-width'} %>
 		<br>

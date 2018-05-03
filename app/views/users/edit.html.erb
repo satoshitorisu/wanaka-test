@@ -10,6 +10,33 @@
 	<hr>
 	<%#= form_for @user,  action: "update", url: user_confirm_path do |f| %>
 
+	<button class="btn btn-primary" data-toggle="modal" data-target="#modal-example">モーダルダイアログ表示</button>
+
+	<div class="modal" id="modal-example" tabindex="-1">
+		    <div class="modal-dialog">
+
+	        <!-- 3.モーダルのコンテンツ -->
+	        <div class="modal-content">
+	            <!-- 4.モーダルのヘッダ -->
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+	                <h4 class="modal-title" id="modal-label">ダイアログ</h4>
+	            </div>
+	            <!-- 5.モーダルのボディ -->
+	            <div class="modal-body">
+	                ここに内容を書く
+	            </div>
+	            <!-- 6.モーダルのフッタ -->
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+	                <button type="button" class="btn btn-primary">保存</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
 	<%= form_for(@user, url: user_confirm_path, method: :post ) do |f|  %>
 	    <div class="form-group">
 		    <%= f.label :ユーザーネーム %><br>
@@ -30,8 +57,9 @@
 		<br>
 
 	    <div class="form-group">
-		    <%= f.label :誕生日 %><br>
-		    <%= f.text_field :birth_day ,{required: 'true', autofocus: 'true', placeholder: " 例）2000/7/1" , class: 'form-control, form-width'} %><br>
+		    <%= f.label :生まれ年 %><br>
+		    <%= f.date_select :birth_day ,{discard_day: true, discard_month: true,:start_year => 1900, :end_year => Date.today.year, required: 'true', autofocus: 'true' , class: 'form-control, form-width'} %>
+		    <%#= f.date_field :birth_day ,{required: 'true', autofocus: 'true', placeholder: " 例）2000/7/1" , class: 'form-control, form-width'} %><br>
 		<small>※チームの平均年齢を算出する為に利用します。</small>
 		</div>
 		<br>
@@ -40,6 +68,15 @@
 			<label><%= f.radio_button :sex, "male" %> 男</label>
 			<label><%= f.radio_button :sex, "female" %> 女</label>
 		</div>
+
+
+	<br>
+
+
+	
+
+  	<br>
+  	<br>
   	<br>
 	    <%= f.submit '登録', class:"btn btn-create wanaka-btn"%> 
 	<% end %>

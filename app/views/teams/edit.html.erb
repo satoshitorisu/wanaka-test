@@ -3,7 +3,8 @@
 <div class="content">
 	<h1>チーム編集</h1>
 	<hr>
-	<%= form_for @team, method: :post do |f| %>
+	<%#= form_for @team, method: :post do |f| %>
+	<%= form_for @team do |f| %>
 	    <%= f.label :チーム名 %><br>
 	    <%= f.text_field :name ,{required: 'true', autofocus: 'true', placeholder: " 例）チームタロウ" , class: 'form-control, form-width'} %>
 		<br>

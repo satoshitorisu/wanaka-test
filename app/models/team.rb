@@ -19,27 +19,31 @@ class Team < ApplicationRecord
 
   validates :image, presence: true
 
-	def self.search(search) #self.でクラスメソッドとしている
+
+
+
+  def self.search(search) #self.でクラスメソッドとしている
     if search # Controllerから渡されたパラメータが!= nilの場合は、titleカラムを部分一致検索
-      Team.find_by('team_key = ?', search)
-      # Team.where(:team_key, "%#{search}%"])
-      # debugger
-    # elseAA
-	 # Team.all #全て表示。
+      Team.where(team_key: "#{search}")
+      # Team.where(['id LIKE ?', "%#{search}%"])
+    else
+      # Team.all #全て表示。
     end
   end
+
+
+
 end
 
-  # has_many :groups, through: :group_users
-  # has_many :group_users
-
-    # t.string "name"
-    # t.string "organization"
-    # t.string "active_place"
-    # t.string "level"
-    # t.string "description"
-    # t.string "image"
-    # t.datetime "created_at", null: false
-    # t.datetime "updated_at", null: false
-    # t.string "team_key"
-    # t.string "leader"
+# has_many :groups, through: :group_users
+# has_many :group_users
+# t.string "name"
+# t.string "organization"
+# t.string "active_place"
+# t.string "level"
+# t.string "description"
+# t.string "image"
+# t.datetime "created_at", null: false
+# t.datetime "updated_at", null: false
+# t.string "team_key"
+# t.string "leader"
