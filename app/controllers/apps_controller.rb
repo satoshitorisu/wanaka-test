@@ -13,6 +13,10 @@ class AppsController < ApplicationController
     end
   end
 
+  def about
+    
+  end
+
   private
     def set_profile
       if user_signed_in?

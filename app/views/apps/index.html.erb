@@ -76,7 +76,7 @@
 
 	<% if @member %>
 		<% @teams.each do |team| %>
-			<%# attachment_image_tag team, :image, :fill, 80, 80, format: 'jpeg' %><br>
+			<%# attachment_image_tag team, :image, :fill, 80, 80, format: 'jpeg' %>
 			<h3><%= team.name %></h3>
 				<table class="table">
 			    <tr>
@@ -102,7 +102,7 @@
 						      	<% end %>
 					          </td>
 						      <td class="schedule-index-box-show-td schedule-index-box-show-td-fix">
-						      	<% if schedule.participates.present? %>
+						      	<% if @members.find_by(schedule_id: schedule.id, user_id: current_user.id).present? %>
 						      		<%# if @members.find_by(schedule_id: schedule.id).status == 1 %>
 						      		<% if @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "1" %>
 								      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label" ,method: :patch%>
@@ -117,8 +117,6 @@
 								      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label" ,method: :patch%>
 								      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label-active" ,method: :patch%>
 						      		<% end %>
-
-
 						      	<% else %>
 							      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label" ,method: :patch%>
 							      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label" ,method: :patch%>
@@ -233,7 +231,7 @@
 		</div>
 		<div class="app-section-content clearfix">
 			<div class="app-section-content-2col">
-				<%= link_to '登録?', new_user_registration_path, class:"signin-text" %>
+				<%= link_to '新規登録?', new_user_registration_path, class:"signin-text" %>
 			</div>
 			<div class="app-section-content-2col">
 				<%= link_to 'ログイン?', new_user_session_path, class:"login-text" %>

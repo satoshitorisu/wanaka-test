@@ -16,25 +16,39 @@
 		    	</div>
 			      <hr>
 						<%= link_to schedules_path do %>
-				  		<div class="navbar-menu"><i class="far fa-calendar-alt"></i>スケジュール一覧</div>
+				  		<div class="navbar-menu"><i class="far fa-calendar-alt"></i>  スケジュール一覧</div>
             <% end %>
 						<%= link_to teams_path do %>
-	            <div class="navbar-menu"><i class="far fa-address-card"></i>所属チーム一覧</div>
+	            <div class="navbar-menu"><i class="far fa-address-card"></i>  所属チーム一覧</div>
             <% end %>
 						<%= link_to member_apply_path do %>
-	              <div class="navbar-menu"><i class="far fa-futbol"></i>既存のチームに参加</div>
+	              <div class="navbar-menu"><i class="far fa-futbol"></i>  既存のチームに参加</div>
             <% end %>
 						<%= link_to new_team_path do %>
-	              <div class="navbar-menu"><i class="fas fa-child"></i>自分でチームを作成</div>
+	              <div class="navbar-menu"><i class="fas fa-child"></i>  自分でチームを作成</div>
             <% end %>
 						<%= link_to user_path(current_user) do %>
-	              <div class="navbar-menu"><i class="far fa-address-card"></i>プロフィール</div>
+	              <div class="navbar-menu"><i class="far fa-address-card"></i>  プロフィール</div>
+            <% end %>
+						<%= link_to app_about_path do %>
+	              <div class="navbar-menu"><i class="far fa-address-card"></i>  Wanakaについて</div>
             <% end %>
 	          <hr>
 		      <%= link_to "ログアウト", destroy_user_session_path, class: "navbar-menu-logout",method: :delete %>
-				<% else %>
-					<%= link_to 'login', new_user_session_path , :class => "header-right-btn"%>/
-					<%= link_to 'sign up', new_user_registration_path , :class => "header-right-btn"%>
+					<% else %>
+
+	              <div class="navbar-menu-top">メニュー</div>
+
+						<%= link_to new_user_session_path do %>
+	              <div class="navbar-menu"><i class="fas fa-sign-in-alt"></i>  ログイン</div>
+            <% end %>
+            <%= link_to new_user_registration_path do %>
+	              <div class="navbar-menu"><i class="fas fa-user-circle"></i>  新規登録</div>
+            <% end %>
+
+						<%= link_to app_about_path do %>
+	              <div class="navbar-menu"><i class="fas fa-book"></i></i>  Wanakaについて</div>
+            <% end %>
 				<% end %>
 		  </div>
 		</div>

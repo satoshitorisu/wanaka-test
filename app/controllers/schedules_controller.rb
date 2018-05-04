@@ -18,8 +18,7 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = Schedule.new(schedule_params)
-    # debugger
-    # debugger
+
     if @schedule.save
       redirect_to schedules_path ,notice: "新たにスケジュールを作成しました。"
     else
@@ -36,11 +35,14 @@ class SchedulesController < ApplicationController
 
   def show
     team_id = Schedule.find(params[:id])
-    if Member.find_by("team_id = ? and user_id = ?", team_id , current_user.id).admin == 1
-      @admin = true
-    else
-      @admin = false
-    end
+    member = Member.find_by("team_id = ? and user_id = ?", team_id.id , current_user.id)
+    # if Member.find_by("team_id = ? and user_id = ?", team_id.id , current_user.id).admin == "1"
+    # debugger
+
+    #   @admin = true
+    # else
+    #   @admin = false
+    # end
     # debugger
     # @participate = Participate.where("(schedule_id = ? )", params[:id])
     @week_name = ["日", "月", "火", "水", "木", "金", "土", "日"]

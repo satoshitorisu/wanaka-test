@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root :to => 'apps#index'
 
   get 'app/demo' => 'apps#demo'
+  get 'app/about' => 'apps#demo' , as: 'app_about'
 
   #User
     devise_for :users

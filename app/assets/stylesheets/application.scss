@@ -201,18 +201,34 @@ nav-drawer {
 	/*padding: 10px 10px;*/
 	/*font-size: 24px;*/
 	/*padding-left: 10px;*/
-	color: #fff;
-	background-color: #F26964;
+	/*color: #fff;*/
+	background-color: #e7e7e7;
 	text-decoration: none;
 }
 
+
+
+
+.navbar-menu-top{
+	width: 100%;
+	/*border: 1px solid red;*/
+	padding: 10px 10px;
+	font-size: 30px;
+	background-color: #F26964;
+	/*padding-left: 10px;*/
+	color: white;
+	font-family: bold;
+	text-align: center;
+}
+
 .navbar-menu-logout{
-	/*width: 100%;*/
+	width: 100%;
 	/*text-align: center;*/
-	/*margin: 0 auto;*/
+	margin: 0 auto;
 	padding-right: 20px;
 	font-size: 14px;
-	float: right;
+	/*float: right;*/
+	text-align: center;
 }
 
 

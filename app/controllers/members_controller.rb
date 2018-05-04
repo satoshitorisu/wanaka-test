@@ -1,11 +1,6 @@
 class MembersController < ApplicationController
   before_action :who_is_it, only: [:apply, :invite, :create, :invited, :show, :edit, :index, :new]
 
-
-	def index
-		
-	end
-
   def apply
     @teams = Team.search(params[:search])
     # debugger
@@ -85,8 +80,6 @@ class MembersController < ApplicationController
   end
 
   def destroy
-    # debugger
-   # debugger
    @member = Member.find(params[:member_id])
    @member.destroy
    redirect_to team_path(params[:team_id])
