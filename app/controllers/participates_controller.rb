@@ -23,7 +23,7 @@ before_action :who_is_it, only: [:index, :update, :show]
 			# debugger
 			participate.status = params[:status]
 			if participate.save
-				redirect_to root_path , notice: ""
+				redirect_to schedules_path , notice: ""
 			else
 				redirect_to participates_path(@user), notice: ""
 			end
@@ -33,7 +33,7 @@ before_action :who_is_it, only: [:index, :update, :show]
 			participate.schedule_id = params[:schedule_id]
 
 			if participate.save
-				redirect_to root_path , notice: ""
+				redirect_to schedules_path, notice: ""
 			else
 				redirect_to participates_path(@user), notice: ""
 			end

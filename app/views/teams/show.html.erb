@@ -1,4 +1,4 @@
-	<%= render 'partial/layout/navbar'%>
+<%= render 'partial/layout/navbar'%>
 <div class="content">
 	<h1><%= @team.name %></h1>
 	<hr>
@@ -61,10 +61,8 @@
 					      	<% elsif member.status == 2 %>参加中
 				      	<% end %>
 			      	</div>
-
 			      </td>
 			      <td class="schedule-index-box-show-td"><%= member.user.created_at.strftime("%Y/%m/%d") %></td>
-
 			      </td>
 			    </tr>
 			<% end %>

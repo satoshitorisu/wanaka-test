@@ -3,8 +3,6 @@
 @import 'toastr';
 
 
-
-
 * {
   margin: 0;
   padding: 0;
@@ -231,8 +229,6 @@ nav-drawer {
 	text-align: center;
 }
 
-
-
 /*app*/
 
 .main-feature-text{
@@ -247,11 +243,24 @@ nav-drawer {
 }
 
 .main-invited{
-	width: 100%;
-	padding: 10px 20px;
-	background-color: #FFD464;
-	font-size: 14px;
-	border-bottom: 0.75px solid black;
+	/*width: 100%;*/
+	/*padding: 10px 20px;*/
+	/*background-color: #FFD464;*/
+	font-size: 12px;
+	/*border-bottom: 0.75px solid black;*/
+
+	box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+	/*以下色とかの装飾*/
+	padding: 6px 20px;
+	margin: 6px 12px;
+	color: #FFF;
+	/*font-weight: bold;*/
+	background: #4293f5;
+
+}
+
+.main-invited-text{
+	color: white;
 }
 
 .app-section{
@@ -447,8 +456,8 @@ $tab-wrap-border-radius: 6px;
 }
 
 .new-game-btn {
-	bottom : 12px;
-	right : 12px;
+	bottom : 100px;
+	right : 20px;
 	margin-top: 300px;
 	position : fixed;
 	width: 70px;
@@ -464,7 +473,7 @@ $tab-wrap-border-radius: 6px;
 }
 
 .new-game-btn:hover {
-	bottom : 10px;
+	bottom : 96px;
 	box-shadow: 2px 2px 6px gray;
 }
 
@@ -830,6 +839,29 @@ p {
 	margin-right: 10px;
 }
 
+.deny-label-top{
+	border: 1px solid #27313D;
+	background-color: #FFF;
+	color: #27313D;
+	font-weight: bold;
+	height: 40px;
+	width: 90px;
+	font-size: 18px;
+	padding-top: 8px;
+	margin: 0 auto;
+	border-radius: 5px;
+	margin-bottom: 16px;
+	text-align: center;
+	float: right;
+	margin-right: 10px;
+}
+
+.deny-label-top:hover{
+	border: 1px solid #F4F4F2;
+	background-color: #27313D;
+	color: #FFF;
+}
+
 .approve-label{
 	border: 1px solid #F4F4F2;
 	background-color: #1253A4;
@@ -846,6 +878,28 @@ p {
 	margin-right: 10px;
 }
 
+.approve-label-top{
+	border: 1px solid #1253A4;
+	background-color: #FFF;
+	font-weight: bold;
+	height: 40px;
+	width: 90px;
+	font-size: 18px;
+	color: #1253A4;
+	padding-top: 8px;
+	margin: 0 auto;
+	border-radius: 5px;
+	margin-bottom: 16px;
+	text-align: center;
+	float: right;
+	margin-right: 10px;
+}
+
+.approve-label-top:hover{
+	border: 1px solid #F4F4F2;
+	background-color: #1253A4;
+	color: #FFF;
+}
 
 
 .attend-label{
@@ -981,8 +1035,7 @@ p {
 	width: 90%;
 }
 
-/*team*/
-	/*index*/
+
 	.team-index-box{
 		width: 90%;
 		/*height: 180px;*/
@@ -1142,6 +1195,15 @@ p {
 
 .hr-end{
 	width: 100%;
+}
+
+.message-index-username{
+	/*color: red;*/
+}
+
+
+.message-index-usermyself{
+
 }
 
 footer{

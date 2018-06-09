@@ -1,9 +1,4 @@
-<header>
-  <div class="header-left">
-    wanaka
-  </div>
-</header><!-- /header -->
-
+<%= render 'partial/layout/navbar'%>
 <div class="content">
 	<h2>パスワードの再設定</h2>
 	<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>

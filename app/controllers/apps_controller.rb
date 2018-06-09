@@ -5,6 +5,7 @@ class AppsController < ApplicationController
   def index
     if user_signed_in?
       @teams = current_user.teams
+      # debugger
       @week_name = ["日", "月", "火", "水", "木", "金", "土", "日"]
       @games = Game.page(params[:page])
       # @members = Participate.where("user_id = ?", current_user.id)
@@ -14,7 +15,6 @@ class AppsController < ApplicationController
   end
 
   def about
-    
   end
 
   private
@@ -28,7 +28,7 @@ class AppsController < ApplicationController
     def who_is_it
       if user_signed_in?
         @admin_user = true if Member.where("user_id = ? and admin = ?",current_user.id, true).present?
-        @member = true if Member.where("user_id = ? and admin = ?",current_user.id, false).present?
+        @member = true if Member.where("user_id = ? and admin = ? and status = ?",current_user.id, false, 2).present?
         @brand_new = true unless Member.where("user_id = ? and admin = ?",current_user.id, false).present?
         @invited = true if Member.where("user_id = ? and status = ?",current_user.id, 0).present?
         @invited_by = Member.where("user_id = ? and status = ?",current_user.id, 0)

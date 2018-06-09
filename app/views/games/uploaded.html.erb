@@ -2,8 +2,10 @@
 <%= render 'partial/layout/navbar'%>
 
 <div class="content">
-	<h4>募集情報一覧	/ 掲載した募集情報	</h4>
 	<br>
+	<h2>掲載しているゲーム一覧<br>
+	<small>過去に掲載した内容は表示されません。</small>
+	</h2>
 	<% if @game_uploaded.present? %>
 		<%#= page_entries_info @games %>
 		<% @game_uploaded.each do |game| %>
@@ -53,16 +55,11 @@
 			右下のボタンより募集してみてはいかがですか？
 		</small>
 	<% end %>
-	過去に掲載したゲームを見る
 	<br>
-		<div class="new-game-btn-space"></div>
-			<div class="new-game-btn">
-				<%= link_to new_game_path do %>
-					<div class="new-schedule-btn-text">
-						+
-					</div>
-				<% end %>
-			</div>
+	<br>
+	<h2><%= link_to "募集マッチング一覧へ", games_path %></h2>
+	<br>
+	<!-- 過去に掲載したゲームを見る -->
 	</div>
 </div>
 

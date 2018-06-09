@@ -13,18 +13,21 @@ Rails.application.routes.draw do
   #Team
     resources :teams, :only => [:new, :create, :index, :show, :edit, :update, :destroy]
     # post 'team/confirm' => 'teams#confirm'
-    get 'team/complete' => 'teams#complete'
+    get 'team/complete' => 'teams#complete', as: 'team_complete'
+    get 'team/error' => 'teams#error', as: 'team_error'
 
   #Member(invite/apply)
     resources :members, :only => [:new, :create, :index, :update, :delete, :destroy]
     # post 'member/invite/:id' => 'members#invite', as: 'member_invite'
     get 'member/invite/:id' => 'members#invite', as: 'member_invite'
     get 'member/invited' => 'members#invited', as: 'member_invited'
+    get 'member/approve' => 'members#approve', as: 'member_approve'
     get 'member/apply' => 'members#apply', as: 'member_apply'
 
   #Scheudle
     resources :schedules, :only => [:new, :create, :index, :show, :edit, :update, :destroy]
     get 'schedule/history' => 'schedules#history', as: 'history_schedule'
+    get 'schedule/complete' => 'schedules#complete', as: 'schedule_complete'
 
   #Pparticipate
     resources :participates, :only => [:index, :create, :new, :update, :destroy, :show]

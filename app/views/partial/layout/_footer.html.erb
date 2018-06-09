@@ -16,14 +16,6 @@
 				</span>
 			</div>
 		<% end %>
-		<%= link_to conversations_path do %>
-			<div class="admin-footer-menu">
-				<i class="far fa-comment-alt"></i><br>
-				<span class="admin-footer-menu-text">
-					メッセージ
-				</span>
-			</div>
-		<% end %>
 		<%= link_to games_path do %>
 			<div class="admin-footer-menu">
 				<i class="far fa-futbol"></i><br>
@@ -32,14 +24,25 @@
 				</span>
 			</div>
 		<% end %>
-		<%= link_to root_path do %>
+		<%= link_to conversations_path do %>
 			<div class="admin-footer-menu">
+				<i class="far fa-comment-alt"></i><br>
+				<span class="admin-footer-menu-text">
+					メッセージ
+				</span>
+			</div>
+		<% end %>
+		<%#= link_to root_path do %>
+<!-- 			<div class="admin-footer-menu">
 				<i class="fas fa-bars"></i><br>
 				<span class="admin-footer-menu-text">
 					メニュー
 				</span>
-			</div>
-		<% end %>
+			</div> -->
+		<%# end %>
+	</div>
+	<div class="menu-space">
+		
 	</div>
 <% else %>
 	<footer>
@@ -50,7 +53,7 @@
 <style type="text/css" media="screen">
 	body{
 		/*margin-bottom: 100px;*/
-		padding-bottom: 100px;
+		/*padding-bottom: 100px;*/
 	}
 
 	.admin-footer-box{
@@ -59,11 +62,14 @@
 		margin-top: 80px;
 		position: fixed;
 		bottom: 0;
+		/*margin-bottom: 80px;*/
+		margin-top: 80px;
 	}
+
 
 	.admin-footer-menu{
 		z-index: auto;
-		width: 20%;
+		width: 25%;
 		float: left;
 		text-align: center;
 		font-size: 32px;
@@ -74,11 +80,19 @@
 	}
 
 	.admin-footer-menu:hover{
+		background-color: #F4F4F2;
+		/*color: white;*/
+		/*border-top: 4px solid #F26964;*/
+		border-top: 4px solid #fff;
+
+	}
+
+/*	.admin-footer-menu:hover{
 		background-color: white;
 		font-size: 40px;
 		line-height: 6px;
 	}
-
+*/
 	.admin-footer-menu-text{
 		font-size: 12px;
 	}
@@ -87,6 +101,11 @@
 	  content: "";
 	  display: block;
 	  clear: both;
+	}
+
+	.menu-space{
+		height: 90px;
+		width: 10px;
 	}
 </style>
 <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>

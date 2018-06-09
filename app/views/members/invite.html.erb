@@ -17,6 +17,9 @@
 			<small>以下のユーザーがヒットしました。お探しのユーザーであれば、<br>	メッセージを入力の上、招待ボタンを押下してください。</small>
 	
 			<% @user.each do |user| %>
+			<% if @member.where(team_id: @team_id, user_id: user.id).present? %>
+				aaa
+			<% end %>
 			<br>
 			<br>
 			<hr>
@@ -29,8 +32,8 @@
 				<%= f.hidden_field :user_id, :value => user.id %>
 				<%= f.hidden_field :admin, :value => 0 %>
 				<%= f.hidden_field :status, :value => 0 %>
-				<%= f.label :greeting %>
-		    　<%= f.text_area :申請時のメッセージ  ,{placeholder: "ひとこと添えて招待ください。" , class: 'form-control, form-width' } %>
+				<%#= f.label :greeting %>
+		    　<%#= f.text_area :greeting ,{placeholder: "ひとこと添えて招待ください。" , class: 'form-control, form-width'} %>
 		    　<%= f.submit '招待する' , class:"btn wanaka-btn btn-create" %> 
 			<% end %>
 

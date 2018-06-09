@@ -25,13 +25,13 @@
 	              <div class="navbar-menu"><i class="far fa-futbol"></i>  既存のチームに参加</div>
             <% end %>
 						<%= link_to new_team_path do %>
-	              <div class="navbar-menu"><i class="fas fa-child"></i>  自分でチームを作成</div>
+	              <div class="navbar-menu"><i class="fas fa-plus-circle"></i>  自分でチームを作成</div>
             <% end %>
 						<%= link_to user_path(current_user) do %>
 	              <div class="navbar-menu"><i class="far fa-address-card"></i>  プロフィール</div>
             <% end %>
 						<%= link_to app_about_path do %>
-	              <div class="navbar-menu"><i class="far fa-address-card"></i>  Wanakaについて</div>
+	              <div class="navbar-menu"><i class="fas fa-book"></i>  Wanakaについて</div>
             <% end %>
 	          <hr>
 		      <%= link_to "ログアウト", destroy_user_session_path, class: "navbar-menu-logout",method: :delete %>
@@ -46,7 +46,7 @@
 	              <div class="navbar-menu"><i class="fas fa-user-circle"></i>  新規登録</div>
             <% end %>
 
-						<%= link_to app_about_path do %>
+			<%= link_to app_about_path do %>
 	              <div class="navbar-menu"><i class="fas fa-book"></i></i>  Wanakaについて</div>
             <% end %>
 				<% end %>

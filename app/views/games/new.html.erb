@@ -20,19 +20,19 @@
 		<br>
 		<br>
 	    <%= f.label :開催日 %><br>
-	    <%= f.date_field :start_time ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'} %>
+		<%= f.date_field :date_time ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'}%>
 		<br>
 		<br>
 	    <%= f.label :集合時間 %><br>
-	    <%= f.time_field :start_time ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'} %>
+	    <%= f.time_select :start_time ,{required: 'true', autofocus: 'true', placeholder: "" , minute_step: 5, class: 'form-control, form-width'}%>
 		<br>
 		<br>
 	    <%= f.label :終了時間 %><br>
-	    <%= f.time_field :end_time ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'} %>
+	    <%= f.time_select :end_time ,{required: 'true', autofocus: 'true', placeholder: "" , minute_step: 5, class: 'form-control, form-width'}%>
 		<br>
 		<br>
 	    <%= f.label :必要となる費用、等 %><br>
-	    <%= f.number_field :price ,{required: 'true', autofocus: 'true', placeholder: "" , class: 'form-control, form-width'} %>
+	    <%= f.number_field :price ,{required: 'true', autofocus: 'true', placeholder: "コート代等の対戦相手が支払う合計金額" , class: 'form-control, form-width'} %>
 		<br>
 		<br>
 	    <%= f.label :備考欄 %><br>

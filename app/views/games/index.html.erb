@@ -2,8 +2,6 @@
 <%= render 'partial/layout/navbar'%>
 
 <div class="content">
-	<h4>募集情報一覧	/ 
-	<%= link_to "掲載した募集情報", games_uploaded_path(current_user.id)  %>	</h4>
 	<br>
 	<% if @games.present? %>
 		<%#= page_entries_info @games %>
@@ -55,6 +53,9 @@
 		</small>
 	<% end %>
 	<br>
+	<br>
+	<h5><%= link_to "掲載した募集情報", games_uploaded_path(current_user.id)  %></h5>
+	<br>
 		<div class="new-game-btn-space"></div>
 			<div class="new-game-btn">
 				<%= link_to new_game_path do %>
@@ -63,7 +64,7 @@
 					</div>
 				<% end %>
 			</div>
-	</div>
+		</div>
 </div>
 
 <%= render 'partial/layout/footer'%>

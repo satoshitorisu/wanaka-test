@@ -2,6 +2,7 @@ class GamesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_game, only: [:show, :update, :edit, :destroy]
   before_action :who_is_it, only: [:new, :create, :index, :uploaded, :update]
+  before_action :admin_only_action, only: [:new, :create, :index, :uploaded, :update]
 
   def new
     @game = Game.new
@@ -65,6 +66,13 @@ class GamesController < ApplicationController
         @admin_user = true if Member.where("user_id = ? and admin = ?",current_user.id, true).present?
       end
     end
+    def admin_only_action
+      unless Member.where("user_id = ? and admin = ?",current_user.id, true).present?
+        redirect_to root_path
+      end
+    end
+
+
 end
 
 

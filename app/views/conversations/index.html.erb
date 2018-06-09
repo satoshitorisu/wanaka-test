@@ -1,41 +1,37 @@
 <%= render 'partial/layout/navbar'%>
 
 <div class="content">
-<h1>チーム作成</h1
-
-<div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
-                    Conversations
+                    メッセージ一覧
                 </div>
-                <% @conversations.each do |conversation| %>
+                <br>
+                <table class="table">
+                  <tr>
+                    <td>会話ユーザー</td>
+                    <td>最終会話</td>
+                    <td>最終会話日時</td>
+                    <td>調整ゲーム</td>
+                    <td>ゲーム開催日</td>
+                  </tr>
+                  <% @conversations.each do |conversation| %>
                     <% other = conversation.sender == current_user ? conversation.recipient : conversation.sender %>
                     <% if !conversation.messages.blank? %>
-                        <div class="panel-body panel-conversation">
-                            <div class="row">
-                                <div class="col-md-2 text-center row-space-1">
-                                    <%#= image_tag other.image, class: "img-circle profile-1" %><br>
-                                    <strong><%= other.username %></strong> 
-                                </div>
-                                <%= link_to conversation_messages_path(conversation) do %>
-                                    <div class="col-md-8">
-                                        <%= conversation.messages.last.body %>
-                                    </div>
-                                <% end %>
-                                <div class="col-md-2">
-                                    <%= conversation.messages.last.message_time %>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
+                      <tr>
+                        <td class="schedule-index-box-show-td"><%= other.username %></td>
+                        <td><%= link_to conversation_messages_path(conversation), class:"schedule-index-box-show-td" do %><%= conversation.messages.last.body %><% end %></td>
+                        <td class="schedule-index-box-show-td"><%= conversation.messages.last.message_time %></td>
+                        <td class="schedule-index-box-show-td"><%= conversation.messages.last.message_time %></td>
+                        <td></td>
+                      </tr>
                     <% end %>
-                <% end %>
+                  <% end %>
+                </table>
             </div>
         </div>
     </div>
-</div>
 </div>
 <%= render 'partial/layout/footer'%>
 

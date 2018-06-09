@@ -22,9 +22,9 @@ class TeamsController < ApplicationController
 			member.admin = true
 			member.status = 2
 			member.save
-			redirect_to team_path(team.id)
+			redirect_to team_complete_path
 		else
-			redirect_to new_team_path
+			redirect_to team_error_path #, notice: "新たにチームは作成できませんでした。"
 		end
 	end
 

@@ -14,6 +14,7 @@
     <%= yield %>
 
     <!-- flashにメッセージがある時 -->
+
     <% unless flash.empty? %>
       <script type="text/javascript">
         <% flash.each do |f| %>
@@ -22,5 +23,6 @@
         <% end %>
       </script>
     <% end %>
+
   </body>
 </html>

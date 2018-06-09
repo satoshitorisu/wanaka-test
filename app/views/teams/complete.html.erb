@@ -1,1 +1,16 @@
-complete.html.erb
+<%= render 'partial/layout/navbar'%>
+<div class="content">
+	<br>
+		<h2>新たにチームを作成しました。</h2>
+		<!-- <div class="content"> -->
+
+	<small>以下の「チーム一覧へ」をクリックし、新たに作成したチームを
+	<br>ご確認ください。</small>
+	<br><br>
+	<%= link_to new_team_path do %>
+		<%= link_to 'チーム一覧へ', teams_path ,class:"btn wanaka-btn btn-complete"%>
+	<% end %>
+	<br>
+	<br>
+</div>
+<%= render 'partial/layout/footer'%>

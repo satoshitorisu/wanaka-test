@@ -1,20 +1,22 @@
 <%= render 'partial/layout/navbar'%>
 <% if user_signed_in? %>
 <% if @invited %>
-	<section class="main-invited">
-		以下のチームより参加の申請があります。
+	<section class="main-invited clearfix">
+		以下のチームより参加の申請があります。チームに参加したい場合は、ご承認ください。
 		<br>
 		<% @invited_by.each do |member| %>
-			<%= member.team.name %>
-			<%= member.greeting %>
+			<%= link_to team_path(member.team_id), class:"main-invited-text" do %>
+				<h3><%= member.team.name %></h3>
+			<% end %>
+	      	<%= link_to '却下', member_path(member.id) ,class:"deny-label-top" ,method: :delete %>
+			<%#= member.greeting %>
+	      	<%= link_to '承認', member_approve_path(:member_id => member.id,:status => 2, :admin => 0, :team_id => member.team_id ),class:"approve-label-top" %>
 		<% end %>
 	</section>
 <% end %>
-
-<% if @admin %>
+<% if @admin_user %>
 	<div class="content">
 		<% @teams.each do |team| %>
-			<%# attachment_image_tag team, :image, :fill, 80, 80, format: 'jpeg' %><br>
 			<h3><%= team.name %></h3>
 				<table class="table">
 			    <tr>
@@ -45,23 +47,19 @@
 				 	<% end %>
 				  </tbody>
 				</table>
-			<div class="">
 			<br>
 				<%= link_to "過去のスケジュールを見る", root_path, class:"schedule-index-box-past"%>
 				<hr>
+			<div class="new-schedule-btn">
+				<%= link_to new_schedule_path do %>
+					<div class="new-schedule-btn-text">
+						+
+					</div>
+				<% end %>
 			</div>
-		<% end %>
-
-		<div class="new-schedule-btn">
-			<%= link_to new_schedule_path do %>
-				<div class="new-schedule-btn-text">
-					+
-				</div>
-			<% end %>
 		</div>
-		<%= render 'partial/layout/admin-footer'%>
-	</div>
-
+		<%= render 'partial/layout/footer'%>
+		<% end %>
 	<% else %>
 	<% if @brand_new %>
 		<section class="content main-content-about">
@@ -72,15 +70,12 @@
 		</section>
 	<% end %>
 	<section class="content main-content-about">
-
-
 	<% if @member %>
+
 		<% @teams.each do |team| %>
-			<%# attachment_image_tag team, :image, :fill, 80, 80, format: 'jpeg' %>
 			<h3><%= team.name %></h3>
 				<table class="table">
 			    <tr>
-			      <!-- <td class="schedule-index-box-show-th">タイトル</td> -->
 			      <td class="schedule-index-box-show-th">日付</td>
 			      <td class="schedule-index-box-show-th">タイトル<br>@場所</td>
 			      <td class="schedule-index-box-show-th">出欠確認</td>
@@ -88,67 +83,63 @@
 			      	<span style="font-size: 12px; font-weight: none;">(出席/保留/欠席)</span></td>
 			    </tr>
 				  <tbody>
+
 					<% team.schedules.where(["schedule_date >= ?", Date.today]).each do |schedule| %>
-						<%= link_to schedule_path(schedule.id) do %>
-						    <tr>
-						      <td class="schedule-index-box-show-td">
-						      	<%= schedule.schedule_date.strftime("%m/%d(#{@week_name[schedule.schedule_date.wday]})") %><br>
-						      	<%= schedule.start_time.strftime("%H:%M") %>-<%= schedule.end_time.strftime("%H:%M") %>
-						      </td>
-						      <td class="schedule-index-box-show-td">
-						      	<%= link_to schedule_path(schedule.id) , class:"schedule-index-box-show-td" do %>
-						      		<%= schedule.title %><br>
-						      		@<%= schedule.place %>
-						      	<% end %>
-					          </td>
-						      <td class="schedule-index-box-show-td schedule-index-box-show-td-fix">
-						      	<% if @members.find_by(schedule_id: schedule.id, user_id: current_user.id).present? %>
-						      		<%# if @members.find_by(schedule_id: schedule.id).status == 1 %>
-						      		<% if @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "1" %>
-								      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label" ,method: :patch%>
-								      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label-active" ,method: :patch%>
-								      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label-active" ,method: :patch%>
-						      		<% elsif @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "0" %>
-								      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label-active" ,method: :patch%>
-								      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label-active" ,method: :patch%>
-								      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label" ,method: :patch%>
-						      		<% elsif @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "2" %>
-								      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label-active" ,method: :patch%>
-								      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label" ,method: :patch%>
-								      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label-active" ,method: :patch%>
-						      		<% end %>
-						      	<% else %>
-							      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label" ,method: :patch%>
-							      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label" ,method: :patch%>
-							      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label" ,method: :patch%>
-						      	<% end %>
-						      </td>
-						      <td class="schedule-index-box-show-td">
-						      	<%= @members.where(status: 1, schedule_id: schedule.id).count %>/
-						      	<%= @members.where(status: 2, schedule_id: schedule.id).count %>/
-						      	<%= @members.where(status: 0, schedule_id: schedule.id).count %>
-						  	  </td>
-						    </tr>
-				        <% end %>
+				    <tr>
+				      <td class="schedule-index-box-show-td">
+				      	<%= schedule.schedule_date.strftime("%m/%d(#{@week_name[schedule.schedule_date.wday]})") %><br>
+				      	<%= schedule.start_time.strftime("%H:%M") %>-<%= schedule.end_time.strftime("%H:%M") %>
+				      </td>
+				      <td class="schedule-index-box-show-td">
+				      	<%= link_to schedule_path(schedule.id) , class:"schedule-index-box-show-td" do %>
+				      		<%= schedule.title %><br>
+				      		@<%= schedule.place %>
+				      	<% end %>
+			          </td>
+				      <td class="schedule-index-box-show-td schedule-index-box-show-td-fix">
+				      	<% if @members.find_by(schedule_id: schedule.id, user_id: current_user.id).present? %>
+				      		<%# if @members.find_by(schedule_id: schedule.id).status == 1 %>
+				      		<% if @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "1" %>
+						      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label" ,method: :patch%>
+						      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label-active" ,method: :patch%>
+						      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label-active" ,method: :patch%>
+				      		<% elsif @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "0" %>
+						      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label-active" ,method: :patch%>
+						      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label-active" ,method: :patch%>
+						      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label" ,method: :patch%>
+				      		<% elsif @members.find_by(schedule_id: schedule.id, user_id: current_user.id).status == "2" %>
+						      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label-active" ,method: :patch%>
+						      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label" ,method: :patch%>
+						      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label-active" ,method: :patch%>
+				      		<% end %>
+				      	<% else %>
+					      	<%= link_to '参加', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 1),class:"attend-label" ,method: :patch%>
+					      	<%= link_to '保留', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 2),class:"pendding-label" ,method: :patch%>
+					      	<%= link_to '欠席', participate_path(:id => schedule.id,:schedule_id => schedule.id,:status => 0),class:"absent-label" ,method: :patch%>
+				      	<% end %>
+				      </td>
+				      <td class="schedule-index-box-show-td">
+				      	<%= @members.where(status: 1, schedule_id: schedule.id).count %>/
+				      	<%= @members.where(status: 2, schedule_id: schedule.id).count %>/
+				      	<%= @members.where(status: 0, schedule_id: schedule.id).count %>
+				  	  </td>
+				    </tr>
 				 	<% end %>
+
 				  </tbody>
 				</table>
-			<div class="">
+			<% unless team.schedules.where(["schedule_date >= ?", Date.today]).present? %>
+			<small>現在投稿されたスケジュールはありません。</small>
+			<br>
+			<% end %>
 			<br>
 				<%= link_to "過去のスケジュールを見る", history_schedule_path, class:"schedule-index-box-past"%>
 				<hr>
-			</div>
 		<% end %>
-
-
 	<% end %>
-
-
 	</section>
 	<%= render 'partial/layout/footer'%>
 <% end %>
-
-
 <% else  %>
 
 <!-- サインインしていないユーザーが見るビュー -->
@@ -241,8 +232,10 @@
 </section>
 <br>
 <%= render 'partial/layout/footer'%>
+
 <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 <% end %>
+
 <style type="text/css" media="screen">
 .app-section{
 	position: relative;

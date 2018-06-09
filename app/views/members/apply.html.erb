@@ -5,14 +5,16 @@
 	<br><br>
 	<hr>
 	<%= form_tag member_apply_path, :method => 'get' do %>
-　  <%= hidden_field :searched_flag, :value => 1 %>
-
+　  <%= hidden_field :searched_flag, :value => true %>
 	  <p>
 	    <%= text_field_tag :search, params[:search] %>
 	    <%= submit_tag "検索", :name => nil %>
 	  </p>
 	<% end %>
-
+	<small style="color: red;">
+		<%= @search_result %>
+	</small>
+	<br>
 	<% if @teams.presence %>
 		<hr>
 		<h2>検索結果</h2>
@@ -46,7 +48,6 @@
 				  </tbody>
 				</table>
 			</div>
-
 			<small>お探しのチームはこちらのチームでおまちがいないでしょうか？
 				<br>よろしければひとこと添えて申請しましょう。</small>
 			<br>
@@ -59,23 +60,13 @@
 	    　<%= f.text_area :申請時のメッセージ  ,{placeholder: "ひとこと添えて申請ください。" , class: 'form-control, form-width' } %>
 	    　<%= f.submit '申し込む' , class:"btn wanaka-btn btn-create" %> 
 			<% end %>
-		
 		<% end %>
-
 	<% else %>
-		<br><hr><br>
-			<small>お探しのチームがない場合は、ご自身でチームを作成することもできます。<br>
-			下記のボタンよりチームを作成ください。</small><br><br>
-			<!-- <h3 class="laber-yellow">新たにグループ作成</h3> -->
-			<%= link_to 'チーム作成', new_team_path, class:"btn wanaka-btn btn-delete" %>
+		<br><br><hr>
+			<small>お探しのチームがない場合は、ご自身でチームを作成することもできます。
+			右上のメニューボタンより「自分でチームを作成」ボタンをクリックしてください。</small><br><br>
 	<% end %>
-	<%#= @search_result %>
-
-
 </div>
 
-<% if @admin %>
-	<%= render 'partial/layout/admin-footer'%>
-<% elsif @member %>
-	<%= render 'partial/layout/footer'%>
-<% end %><%= render 'partial/layout/footer'%>
+
+<%= render 'partial/layout/footer'%>

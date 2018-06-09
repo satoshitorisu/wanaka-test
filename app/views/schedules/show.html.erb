@@ -42,7 +42,6 @@
 	      <td>氏名</td>
 	      <td>出欠状況</td>
 	    </tr>
-	  	
 	    <% @participates.each do |participate| %>
 	    <tr>
 	      <td class="schedule-index-box-show-td"><%= participate.user.first_name %> <%= participate.user.last_name %></td>
@@ -77,8 +76,6 @@
     <%= link_to '戻る', :back  ,class:"btn wanaka-btn btn-complete" %>
   </div>
 <br>
-<%= @schedule.latitude %>
-
 <%= render 'partial/layout/footer'%>
 
   <script>

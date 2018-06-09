@@ -3,55 +3,49 @@ class MembersController < ApplicationController
 
   def apply
     @teams = Team.search(params[:search])
-    # debugger
-    # @teams = Team.search(params[:search])
-    # debugger
-    # @member = Member.new
-    # @team = Team.search(params[:search])
+    @search_result = ""
 
-    searched_flag = false
-    searched_flag = params[:searched_flag]
+    if @teams.blank? && params[:search] != nil
+      @search_result = "*入力内容が空白または、該当するチームは存在しません。チームキーをご確認の上、再度入力ください。"
 
+    elsif @teams.present?
+      if Member.find_by(team_id: @teams.find(1).id, user_id: current_user.id ).present?
+          @search_result = "*既に参加・申し込みしているチームです。"
+          @teams = nil
+      end
+    end
     # debugger
-    # if @team.present?
-    #既に招待・参加しているユーザーをチェック
-     # if Member.where("(team_id = ?) AND (user_id = ?)", @team.id, current_user.id ).present?
-        # @search_result = "既に参加・申し込みしているチームです。"
-        # @team = nil
-        # redirect_to member_apply_path , notice: "チーム追加を申請しました。管理者による承認後、チームに参加しできます。"
-    # debugger
-
-    #検索結果がnilの場合
-      # elsif  !(searched_flag.nil?)
-        # @search_result = "該当するユーザーが存在しません。もう一度ご確認の上、再入力してください。"
-    # エラーがない場合
-    # end
   end
 
   def invite
 
     # @member = Member.new
+    @member = Member.all
+    @team_id = params[:id]
     @user = User.search(params[:search])
+    @search_result = ""
     # team_id = params[:id]
     # debugger
-    # searched_flag = false
+    searched_flag = false
     # searched_flag = params[:searched_flag]
 
-    # if @user.present?
+    if @user.blank? && params[:search] != nil
     # #既に招待・参加しているユーザーをチェック
+     @search_result = "該当するユーザーが存在しません。もう一度ご確認の上、再入力してください。"
     #  if Member.where("(team_id = ?) AND (user_id = ?)", team_id, @user.id ).present?
     #     @search_result = "既に参加・招待しているユーザーです。"
     #     @user = nil
 
     # #検索結果がnilの場合
-    #   elsif  !(searched_flag.nil?)
-    #     @search_result = "該当するユーザーが存在しません。もう一度ご確認の上、再入力してください。"
+      # elsif  @user.present?
+        # if Member.find_by(team_id: params[:id], user_id: @user.find(1).id ).present?
+
 
     # #エラーがない場合
     #   else
     #     @search_result = ""
-    #   end
-    # end
+      # end
+    end
   end
 
   def create
@@ -79,10 +73,22 @@ class MembersController < ApplicationController
     redirect_to team_path(params[:team_id])
   end
 
+
+  def approve
+    member = Member.find(params[:member_id])
+    # debugger
+    # member.status = params[:status]
+    # member.greeting = ""
+    # member.admin = params[:admin]
+    # debugger
+    member.update(status: 2)
+    redirect_to team_path(params[:team_id])
+  end
+
   def destroy
-   @member = Member.find(params[:member_id])
+   @member = Member.find(params[:id])
    @member.destroy
-   redirect_to team_path(params[:team_id])
+   redirect_to team_path
   end
 
   private
@@ -92,7 +98,7 @@ class MembersController < ApplicationController
 
   def who_is_it
     if user_signed_in?
-      @admin = true if Member.where("user_id = ? and admin = ?",current_user.id, true).present?
+      @admin_user = true if Member.where("user_id = ? and admin = ?",current_user.id, true).present?
       @member = true if Member.where("user_id = ? and admin = ?",current_user.id, false).present?
       # @brand_new = true unless Member.where("user_id = ? and admin = ?",current_user.id, false).present?
       # @invited = true if Member.where("user_id = ? and status = ?",current_user.id, 0).present?
